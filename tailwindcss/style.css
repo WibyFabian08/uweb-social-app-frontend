@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background-color: #242526;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(138, 133, 133);
+}
