@@ -1,10 +1,8 @@
 import React, { useRef } from "react";
-import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import profile from "../assets/images/profile.jpg";
+import InputFile from "../elements/InputFile";
 
 const WritePost = ({ showModalPost }) => {
-  const uploadImage = useRef(null);
-
   return (
     <div
       className="input-post w-full mt-5 rounded-lg p-5 mb-5"
@@ -30,18 +28,7 @@ const WritePost = ({ showModalPost }) => {
         style={{ border: "0.025px solid gray" }}
         className="mt-3 w-full"
       ></div>
-      <div
-        className="flex items-center my-2"
-        style={{ cursor: "pointer" }}
-        onClick={() => uploadImage.current.click()}
-      >
-        <VideoLibraryIcon
-          style={{ color: "white" }}
-          fontSize="large"
-        ></VideoLibraryIcon>
-        <h2 className="text-white ml-2">Add Image</h2>
-        <input type="file" name="" id="" ref={uploadImage} className="hidden" />
-      </div>
+      <InputFile></InputFile>
     </div>
   );
 };

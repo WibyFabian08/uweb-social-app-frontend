@@ -5,9 +5,9 @@ import ModalPost from "../parts/ModalPost";
 
 import LanguageIcon from "@material-ui/icons/Language";
 import PhoneIcon from "@material-ui/icons/Phone";
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
-import ImportContactsIcon from '@material-ui/icons/ImportContacts';
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import SportsBasketballIcon from "@material-ui/icons/SportsBasketball";
+import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 
 const MyPost = () => {
   const [showModal, setShowModal] = useState(false);
@@ -53,21 +53,27 @@ const MyPost = () => {
               </div>
               <div className="flex justify-between items-center mb-5">
                 <div className="flex items-center">
-                  <SupervisorAccountIcon style={{ color: "white" }}></SupervisorAccountIcon>
+                  <SupervisorAccountIcon
+                    style={{ color: "white" }}
+                  ></SupervisorAccountIcon>
                   <p className="text-white ml-1">Status : </p>
                 </div>
                 <p className="text-white">Menikah</p>
               </div>
               <div className="flex justify-between items-center mb-5">
                 <div className="flex items-center">
-                  <SportsBasketballIcon style={{ color: "white" }}></SportsBasketballIcon>
+                  <SportsBasketballIcon
+                    style={{ color: "white" }}
+                  ></SportsBasketballIcon>
                   <p className="text-white ml-1">Hobby : </p>
                 </div>
                 <p className="text-white">Olahraga</p>
               </div>
               <div className="flex justify-between items-center mb-5">
                 <div className="flex items-center">
-                  <ImportContactsIcon style={{ color: "white" }}></ImportContactsIcon>
+                  <ImportContactsIcon
+                    style={{ color: "white" }}
+                  ></ImportContactsIcon>
                   <p className="text-white ml-1">Alamat : </p>
                 </div>
                 <p className="text-white">Garut</p>

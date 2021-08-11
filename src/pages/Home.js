@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import LeftSidebar from "../parts/LeftSidebar";
 import MainContent from "../parts/MainContent";
 import Navbar from "../parts/Navbar";
 import RightSidebar from "../parts/RightSidebar";
 
 const Home = () => {
+  const history = useHistory();
+  useEffect(() => {
+    let USER = JSON.parse(localStorage.getItem("user"));
+
+    console.log(USER);
+
+    if (USER === null) {
+      history.push("/login");
+    }
+
+    // localStorage.removeItem("user");
+  }, []);
   return (
     <div
       className="overflow-hidden"

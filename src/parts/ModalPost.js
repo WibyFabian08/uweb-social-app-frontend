@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+import React from "react";
+import Button from "../elements/Button";
+import InputFile from "../elements/InputFile";
+import InputPost from "../elements/InputPost";
 
 const ModalPost = ({ showModalPost }) => {
-  const uploadImage = useRef(null);
-
   return (
     <div
       className="absolute inset-0 z-10 transition-all duration-300"
@@ -36,34 +36,9 @@ const ModalPost = ({ showModalPost }) => {
             className="w-full"
           ></div>
           <div className="p-5">
-            <textarea
-              name=""
-              rows="5"
-              className="px-5 py-2 bg-transparent focus:outline-none border-0 text-white text-xl"
-              placeholder="Apa yang Anda pikirkan?"
-              style={{ width: "100%", height: "100%" }}
-            ></textarea>
-            <div
-              className="flex items-center my-2"
-              style={{ cursor: "pointer" }}
-              onClick={() => uploadImage.current.click()}
-            >
-              <VideoLibraryIcon
-                style={{ color: "white" }}
-                fontSize="large"
-              ></VideoLibraryIcon>
-              <h2 className="text-white ml-2">Add Image</h2>
-              <input
-                type="file"
-                name=""
-                id=""
-                ref={uploadImage}
-                className="hidden"
-              />
-            </div>
-            <button className="w-full bg-blue-500 hover:bg-blue-400 text-white rounded-lg px-4 py-2 mt-2">
-              Kirim
-            </button>
+            <InputPost></InputPost>
+            <InputFile></InputFile>
+            <Button type="post" label="Kirim"></Button>
           </div>
         </div>
       </div>

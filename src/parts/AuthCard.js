@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../elements/Button";
 import InputText from "../elements/InputText";
 
-const AuthCard = ({ type }) => {
+const AuthCard = ({ type, value, onChange, onClick, loading }) => {
   if (type === "register") {
     return (
       <div className="w-2/5">
@@ -13,8 +13,16 @@ const AuthCard = ({ type }) => {
               "0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0, 0, 0 / 10%)",
           }}
         >
-          <InputText type="text" placeholder="Email Address"></InputText>
-          <InputText type="password" placeholder="Password"></InputText>
+          <InputText
+            value={value.email}
+            type="text"
+            placeholder="Email Address"
+          ></InputText>
+          <InputText
+            value={value.password}
+            type="password"
+            placeholder="Password"
+          ></InputText>
           <div className="w-full mb-5">
             <Button type="blue" label="Buat Akun Baru"></Button>
           </div>
@@ -48,10 +56,26 @@ const AuthCard = ({ type }) => {
             "0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0, 0, 0 / 10%)",
         }}
       >
-        <InputText type="text" placeholder="Email Address"></InputText>
-        <InputText type="password" placeholder="Password"></InputText>
+        <InputText
+          name="email"
+          value={value.email}
+          onChange={onChange}
+          type="text"
+          placeholder="Email Address"
+        ></InputText>
+        <InputText
+          name="password"
+          value={value.password}
+          onChange={onChange}
+          type="password"
+          placeholder="Password"
+        ></InputText>
         <div className="w-full mb-5">
-          <Button type="blue" label="Login"></Button>
+          <Button
+            type="blue"
+            onClick={onClick}
+            label={loading ? "Loading..." : "Login"}
+          ></Button>
         </div>
         <div className="flex w-full">
           <Button type="forgetPassword"></Button>
