@@ -14,17 +14,32 @@ const AuthCard = ({ type, value, onChange, onClick, loading }) => {
           }}
         >
           <InputText
+            value={value.username}
+            name="username"
+            onChange={onChange}
+            type="text"
+            placeholder="Username"
+          ></InputText>
+          <InputText
             value={value.email}
+            name="email"
+            onChange={onChange}
             type="text"
             placeholder="Email Address"
           ></InputText>
           <InputText
             value={value.password}
+            name="password"
+            onChange={onChange}
             type="password"
             placeholder="Password"
           ></InputText>
           <div className="w-full mb-5">
-            <Button type="blue" label="Buat Akun Baru"></Button>
+            <Button
+              type="blue"
+              onClick={onClick}
+              label={loading ? 'Loading...' : 'Buat Akun Baru'}
+            ></Button>
           </div>
           <div className="flex w-full">
             <Button type="forgetPassword"></Button>

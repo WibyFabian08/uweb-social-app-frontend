@@ -16,8 +16,7 @@ const Home = () => {
     if (USER === null) {
       history.push("/login");
     }
-
-    // localStorage.removeItem("user");
+    
   }, []);
   return (
     <div
