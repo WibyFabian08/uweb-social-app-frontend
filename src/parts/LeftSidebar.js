@@ -3,10 +3,12 @@ import { Link, useHistory } from "react-router-dom";
 import profile from "../assets/images/profile.jpg";
 import leftSidebar from "../json/leftSidebar";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/action/authAction";
 
 const LeftSidebar = () => {
+  const USER = useSelector((state) => state.userState);
+
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -17,14 +19,22 @@ const LeftSidebar = () => {
     <div className="w-3/12 sticky top-0 px-5">
       <div className="sidebar-left flex flex-col h-screen overflow-y-auto">
         <div className="flex items-center mt-5">
-          <img
-            src={profile}
-            width={40}
-            className="rounded-full object-cover"
-            alt="profile"
-          />
+          <div
+            className="overflow-hidden rounded-full"
+            style={{ width: 40, height: 40 }}
+          >
+            <img
+              src={
+                USER && USER.profilePicture
+                  ? `http://localhost:3000/${USER.profilePicture}`
+                  : profile
+              }
+              className="w-full h-full object-cover"
+              alt="profile"
+            />
+          </div>
           <h2 className="text-white font-bold ml-2 truncate ...">
-            Wiby Fabian Rianto
+            {USER && USER.username}
           </h2>
         </div>
         {leftSidebar.map((data, index) => {

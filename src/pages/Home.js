@@ -11,13 +11,11 @@ const Home = () => {
   useEffect(() => {
     let USER = JSON.parse(localStorage.getItem("user"));
 
-    console.log(USER);
-
     if (USER === null) {
       history.push("/login");
     }
     
-  }, []);
+  }, [history]);
   return (
     <div
       className="overflow-hidden"

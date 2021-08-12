@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
+import axios from "axios";
 
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import CreateIcon from "@material-ui/icons/Create";
 import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 
-import cover from "../assets/images/cover.jpg";
 import profile from "../assets/images/profile.jpg";
 
 const DetailHeader = ({ match }) => {
+  const [user, setUser] = useState({});
   const getNavLink = (path) => {
     return path === match.path ? "border-b-4 border-solid border-blue-400" : "";
   };
@@ -17,7 +18,23 @@ const DetailHeader = ({ match }) => {
   const getNavTitle = (path) => {
     return path === match.path ? "text-blue-500" : "text-white";
   };
-  
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/users/name/${match.params.username}`)
+      .then((res) => {
+        console.log(res.data);
+        setUser(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err?.response?.data?.message);
+      });
+  }, [match.params.username]);
+
+  if (!user) {
+    return <div>loading...</div>;
+  }
+
   return (
     <div style={{ backgroundColor: "#4a4a4a" }}>
       <div className="container mx-auto px-40">
@@ -26,7 +43,9 @@ const DetailHeader = ({ match }) => {
             className="cover-image relative rounded-b-lg bg-white w-full"
             style={{
               height: 370,
-              backgroundImage: `url(${cover})`,
+              backgroundImage: `url(http://localhost:3000/${
+                user ? user.coverPicture : ""
+              })`,
               backgroundSize: "cover",
             }}
           >
@@ -43,12 +62,20 @@ const DetailHeader = ({ match }) => {
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <div className="relative">
-                  <img
-                    src={profile}
-                    width={120}
-                    className="object-cover rounded-full"
-                    alt="profile"
-                  />
+                  <div
+                    className="overflow-hidden rounded-full bg-white"
+                    style={{ width: 120, height: 120 }}
+                  >
+                    <img
+                      src={
+                        user
+                          ? `http://localhost:3000/${user.profilePicture}`
+                          : profile
+                      }
+                      className="object-cover w-full h-full"
+                      alt="profile"
+                    />
+                  </div>
                   <div
                     className="absolute bottom-0 right-0 bg-gray-700 rounded-full p-1"
                     style={{ cursor: "pointer" }}
@@ -59,9 +86,11 @@ const DetailHeader = ({ match }) => {
                 </div>
                 <div className="ml-3 flex flex-col justify-end h-full">
                   <h2 className="text-white text-2xl font-bold">
-                    Wiby Fabian Rianto
+                    {user && user.username}
                   </h2>
-                  <p className="text-white font-bold">20 Teman</p>
+                  <p className="text-white font-bold">
+                    {user && user.followers && user.followers.length} Pengikut
+                  </p>
                 </div>
               </div>
               <div className="flex items-center h-full">
@@ -92,15 +121,15 @@ const DetailHeader = ({ match }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div
-              className={["mx-3 py-5", getNavLink("/profile/:username")].join(
+              className={["mx-3 py-5", getNavLink(`/profile/:username`)].join(
                 " "
               )}
             >
-              <Link to="/profile/will">
+              <Link to={`/profile/${user && user.username}`}>
                 <p
                   className={[
                     "font-bold",
-                    getNavTitle("/profile/:username"),
+                    getNavTitle(`/profile/:username`),
                   ].join(" ")}
                 >
                   Postingan
@@ -110,14 +139,14 @@ const DetailHeader = ({ match }) => {
             <div
               className={[
                 "mx-3 py-5",
-                getNavLink("/profile/:username/friends"),
+                getNavLink(`/profile/:username/friends`),
               ].join(" ")}
             >
-              <Link to="/profile/:username/friends">
+              <Link to={`/profile/${user && user.username}/friends`}>
                 <p
                   className={[
                     "font-bold",
-                    getNavTitle("/profile/:username/frineds"),
+                    getNavTitle(`/profile/:username/friends`),
                   ].join(" ")}
                 >
                   Teman
@@ -127,14 +156,14 @@ const DetailHeader = ({ match }) => {
             <div
               className={[
                 "mx-3 py-5",
-                getNavLink("/profile/:username/images"),
+                getNavLink(`/profile/:username/images`),
               ].join(" ")}
             >
-              <Link to="/profile/will/images">
+              <Link to={`/profile/${user && user.username}/images`}>
                 <p
                   className={[
                     "font-bold",
-                    getNavTitle("/profile/:username/images"),
+                    getNavTitle(`/profile/:username/images`),
                   ].join(" ")}
                 >
                   Foto

@@ -1,20 +1,30 @@
-import React, { useRef } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import profile from "../assets/images/profile.jpg";
 import InputFile from "../elements/InputFile";
 
 const WritePost = ({ showModalPost }) => {
+  const USER = useSelector((state) => state.userState);
   return (
     <div
       className="input-post w-full mt-5 rounded-lg p-5 mb-5"
       style={{ backgroundColor: "#242526" }}
     >
       <div className="flex items-center">
-        <img
-          src={profile}
-          width={40}
-          className="rounded-full object-cover"
-          alt="profile"
-        />
+        <div
+          className="overflow-hidden rounded-full"
+          style={{ height: 40, width: 40 }}
+        >
+          <img
+            src={
+              USER && USER.profilePicture
+                ? `http://localhost:3000/${USER.profilePicture}`
+                : profile
+            }
+            className="w-full h-full object-cover"
+            alt="profile"
+          />
+        </div>
         <input
           type="text"
           readOnly

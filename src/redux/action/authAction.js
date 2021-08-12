@@ -6,9 +6,10 @@ export const masuk = (data, history, notify) => (dispatch) => {
     .post("http://localhost:3000/auth/login", data)
     .then((res) => {
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      history.push("/");
+      dispatch({type: 'SET_USER', value: res.data.user})
       dispatch({ type: "SET_ERROR", value: null });
       dispatch({ type: "SET_LOADING", value: false });
+      history.push("/");
     })
     .catch((err) => {
       dispatch({ type: "SET_ERROR", value: err?.response?.data?.message });
@@ -29,9 +30,10 @@ export const daftar = (data, notify, history) => (dispatch) => {
     .post("http://localhost:3000/auth/register", data)
     .then((res) => {
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      history.push("/");
+      dispatch({type: 'SET_USER', value: res.data.user})
       dispatch({ type: "SET_ERROR", value: null });
       dispatch({ type: "SET_LOADING", value: false });
+      history.push("/");
     })
     .catch((err) => {
       dispatch({ type: "SET_ERROR", value: err?.response?.data?.message });

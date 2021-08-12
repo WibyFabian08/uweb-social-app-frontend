@@ -2,14 +2,41 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import profile from "../assets/images/profile.jpg";
-import post from "../assets/images/post.jpg";
 
 import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import ReplyOutlinedIcon from "@material-ui/icons/ReplyOutlined";
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 
-const PostCard = () => {
+const PostCard = ({ data }) => {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/users/${data ? data.userId : ""}`)
+      .then((res) => {
+        setUser(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [data]);
+
+  const formatedDate = new Date(data ? data.createdAt : "").toDateString();
+  if (data.l) {
+    return (
+      <div
+        className="mb-5 w-full rounded-lg"
+        style={{ backgroundColor: "#242526" }}
+      >
+        <div className="flex justify-between items-center p-5">
+          <h2 className="text-white">Belum Ada Postingan</h2>
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       className="mb-5 w-full rounded-lg"
@@ -17,16 +44,21 @@ const PostCard = () => {
     >
       <div className="flex justify-between items-center p-5">
         <div className="flex items-center">
-          <img
-            src={profile}
-            width={50}
-            height={30}
-            className="object-cover rounded-lg"
-            alt="profile"
-          />
+          <div
+            className="overflow-hidden rounded-full"
+            style={{ width: 50, height: 50 }}
+          >
+            <img
+              src={
+                user ? `http://localhost:3000/${user.profilePicture}` : profile
+              }
+              className="object-cover w-full h-full"
+              alt="profile"
+            />
+          </div>
           <div className="ml-3">
-            <h2 className="text-white">Wiby Fabian Rianto</h2>
-            <p className="text-gray-400 text-sm">1 Jam</p>
+            <h2 className="text-white">{user ? user.username : "username"}</h2>
+            <p className="text-gray-400 text-sm">{data ? formatedDate : ""}</p>
           </div>
         </div>
         <Link to="/">
@@ -38,12 +70,13 @@ const PostCard = () => {
       </div>
       <div className="w-full">
         <div className="px-5">
-          <p className="text-white mb-2">
-            Hari ini hari pertama saya pergi magang, saya pergiu mengendarai si
-            roda dua
-          </p>
+          <p className="text-white mb-2">{data ? data.body : "post body"}</p>
         </div>
-        <img src={post} alt="post" className="w-full object-cover" />
+        <img
+          src={data ? `http://localhost:3000/${data.image}` : ""}
+          alt="post"
+          className="w-full object-cover"
+        />
       </div>
       <div className="p-5">
         <div className="flex justify-between items-center mb-2">
@@ -52,10 +85,14 @@ const PostCard = () => {
               style={{ color: "white" }}
               fontSize="small"
             ></ThumbUpAltOutlinedIcon>
-            <span className="text-gray-400 ml-2 mt-1">20</span>
+            <span className="text-gray-400 ml-2 mt-1">
+              {data ? data.likes.length : ""}
+            </span>
           </div>
           <div>
-            <p className="text-gray-400 text-sm">20 Orang menyukai postingan</p>
+            <p className="text-gray-400 text-sm">
+              {data ? data.likes.length : ""} Orang menyukai postingan
+            </p>
           </div>
         </div>
         <div style={{ border: "0.025px solid gray" }} className="w-full"></div>

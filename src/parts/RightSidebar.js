@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 
 import profile from "../assets/images/profile.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../redux/action/userAction";
 
 const RightSidebar = () => {
+  const dispatch = useDispatch();
+  const USERS = useSelector((state) => state.usersState);
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
   return (
     <div className="w-3/12 mt-5">
-      <div className="flex items-center justify-between px-5">
+      <div className="flex items-center justify-between px-5 mb-5">
         <div>
           <h2 className="text-white font-bold text-1xl">Kontak</h2>
         </div>
@@ -26,25 +35,40 @@ const RightSidebar = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col p-5">
-        <div className="flex items-center mb-5">
-          <div className="relative">
-            <div
-              style={{ height: 10, width: 10 }}
-              className="bg-green-500 rounded-full absolute z-10 bottom-0 right-0"
-            ></div>
-            <img
-              src={profile}
-              width={30}
-              className="rounded-full object-cover"
-              alt="profile"
-            />
-          </div>
-          <h2 className="text-white text-sm font-bold ml-2 truncate ...">
-            Wiby Fabian Rianto
-          </h2>
-        </div>
-      </div>
+      {USERS &&
+        USERS.map((data, index) => {
+          return (
+            <div className="flex flex-col px-5" key={index}>
+              <Link to={`/profile/${data ? data.username : ''}`}>
+                <div className="flex items-center mb-5">
+                  <div className="relative">
+                    <div
+                      style={{ height: 10, width: 10 }}
+                      className="bg-green-500 rounded-full absolute z-10 bottom-0 right-0"
+                    ></div>
+                    <div
+                      className="overflow-hidden rounded-full"
+                      style={{ height: 30, width: 30 }}
+                    >
+                      <img
+                        src={
+                          data.profilePicture
+                            ? `http://localhost:3000/${data.profilePicture}`
+                            : profile
+                        }
+                        className="w-full h-full object-cover"
+                        alt="profile"
+                      />
+                    </div>
+                  </div>
+                  <h2 className="text-white text-sm font-bold ml-2 truncate ...">
+                    {data.username}
+                  </h2>
+                </div>
+              </Link>
+            </div>
+          );
+        })}
     </div>
   );
 };

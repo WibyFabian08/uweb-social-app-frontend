@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {withRouter} from 'react-router-dom'
+
 import PostCard from "../parts/PostCard";
 import WritePost from "../parts/WritePost";
 import ModalPost from "../parts/ModalPost";
@@ -9,12 +12,24 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import SportsBasketballIcon from "@material-ui/icons/SportsBasketball";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 
-const MyPost = () => {
+const MyPost = ({match}) => {
   const [showModal, setShowModal] = useState(false);
+  const [myPost, setMyPost] = useState([]);
 
   const showModalPost = () => {
     setShowModal(!showModal);
   };
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/posts/profile/${match ? match.params.username : ""}`)
+      .then((res) => {
+        setMyPost(res.data.posts);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [match]);
   return (
     <div
       style={{
@@ -82,7 +97,10 @@ const MyPost = () => {
           </div>
           <div className="w-3/5">
             <WritePost showModalPost={showModalPost}></WritePost>
-            <PostCard></PostCard>
+            {myPost.length > 0 &&
+              myPost.map((data, index) => {
+                return <PostCard key={index} data={data}></PostCard>;
+              })}
             {showModal && <ModalPost showModalPost={showModalPost}></ModalPost>}
           </div>
         </div>
@@ -91,4 +109,4 @@ const MyPost = () => {
   );
 };
 
-export default MyPost;
+export default withRouter(MyPost);
