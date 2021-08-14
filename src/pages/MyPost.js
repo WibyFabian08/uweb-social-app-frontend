@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {withRouter} from 'react-router-dom'
+import { withRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import PostCard from "../parts/PostCard";
 import WritePost from "../parts/WritePost";
 import ModalPost from "../parts/ModalPost";
+
+import { getMyPost } from "../redux/action/postAction";
 
 import LanguageIcon from "@material-ui/icons/Language";
 import PhoneIcon from "@material-ui/icons/Phone";
@@ -12,25 +15,34 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import SportsBasketballIcon from "@material-ui/icons/SportsBasketball";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 
-const MyPost = ({match}) => {
+const MyPost = ({ match }) => {
+  const USER = useSelector((state) => state.userState);
+  const MYPOST = useSelector((state) => state.myPostState);
   const [showModal, setShowModal] = useState(false);
-  const [myPost, setMyPost] = useState([]);
+
+  const dispatch = useDispatch();
 
   const showModalPost = () => {
     setShowModal(!showModal);
   };
 
-  useEffect(() => {
+  const handleLike = (data) => {
     axios
-      .get(`http://localhost:3000/posts/profile/${match ? match.params.username : ""}`)
+      .post(`http://localhost:3000/posts/${data ? data._id : ""}`, {
+        userId: USER ? USER._id : "",
+      })
       .then((res) => {
-        setMyPost(res.data.posts);
+        dispatch(getMyPost(match ? match.params.username : ""));
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err?.response?.data?.message);
       });
-  }, [match]);
-  
+  };
+
+  useEffect(() => {
+    dispatch(getMyPost(match ? match.params.username : ""));
+  }, [match, dispatch]);
+
   return (
     <div
       style={{
@@ -98,9 +110,15 @@ const MyPost = ({match}) => {
           </div>
           <div className="w-3/5">
             <WritePost showModalPost={showModalPost}></WritePost>
-            {myPost.length > 0 &&
-              myPost.map((data, index) => {
-                return <PostCard key={index} data={data}></PostCard>;
+            {MYPOST.length > 0 &&
+              MYPOST.map((data, index) => {
+                return (
+                  <PostCard
+                    key={index}
+                    data={data}
+                    handleLike={handleLike}
+                  ></PostCard>
+                );
               })}
             {showModal && <ModalPost showModalPost={showModalPost}></ModalPost>}
           </div>

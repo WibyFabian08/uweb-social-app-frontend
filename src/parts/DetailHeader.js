@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -11,6 +12,51 @@ import profile from "../assets/images/profile.jpg";
 
 const DetailHeader = ({ match }) => {
   const [user, setUser] = useState({});
+  const inputRef = useRef(null);
+  const coverRef = useRef(null);
+  const dispatch = useDispatch();
+
+  const updateProfileImage = (e) => {
+    const data = new FormData();
+
+    data.append("userId", user._id);
+    data.append("image", e.target.files[0]);
+
+    axios
+      .put(`http://localhost:3000/users/${user._id}`, data, {
+        headers: {
+          "Content-Type": "Multipart/Form-Data",
+        },
+      })
+      .then((res) => {
+        dispatch({ type: "SET_USER", value: res.data.user });
+        setUser(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err?.response?.data?.message);
+      });
+  };
+
+  const updateCoverImage = (e) => {
+    const data = new FormData();
+
+    data.append("image", e.target.files[0]);
+
+    axios
+      .put(`http://localhost:3000/users/${user._id}/cover`, data, {
+        headers: {
+          "Content-Type": "Multipart/Form-Data",
+        },
+      })
+      .then((res) => {
+        dispatch({ type: "SET_USER", value: res.data.user });
+        setUser(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err?.response?.data?.message);
+      });
+  };
+
   const getNavLink = (path) => {
     return path === match.path ? "border-b-4 border-solid border-blue-400" : "";
   };
@@ -28,7 +74,7 @@ const DetailHeader = ({ match }) => {
       .catch((err) => {
         console.log(err?.response?.data?.message);
       });
-  }, [match.params.username]);
+  }, [match.params.username, dispatch]);
 
   if (!user) {
     return <div>loading...</div>;
@@ -51,9 +97,16 @@ const DetailHeader = ({ match }) => {
             <div
               className="absolute bg-white right-10 bottom-5 px-4 py-2 rounded-md flex items-center"
               style={{ cursor: "pointer" }}
-              onClick={() => alert("ok")}
+              onClick={() => coverRef.current.click()}
             >
               <CameraAltIcon></CameraAltIcon>
+              <input
+                type="file"
+                name="image"
+                onChange={(e) => updateCoverImage(e)}
+                className="hidden"
+                ref={coverRef}
+              />
               <p className="font-semibold ml-2">Edit Foto Sampul</p>
             </div>
           </div>
@@ -78,9 +131,16 @@ const DetailHeader = ({ match }) => {
                   <div
                     className="absolute bottom-0 right-0 bg-gray-700 rounded-full p-1"
                     style={{ cursor: "pointer" }}
-                    onClick={() => alert("ok")}
+                    onClick={() => inputRef.current.click()}
                   >
                     <CameraAltIcon style={{ color: "white" }}></CameraAltIcon>
+                    <input
+                      type="file"
+                      name="image"
+                      onChange={(e) => updateProfileImage(e)}
+                      className="hidden"
+                      ref={inputRef}
+                    />
                   </div>
                 </div>
                 <div className="ml-3 flex flex-col justify-end h-full">

@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import profile from "../assets/images/profile.jpg";
 
 import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import ReplyOutlinedIcon from "@material-ui/icons/ReplyOutlined";
-import { useEffect } from "react";
-import axios from "axios";
-import { useState } from "react";
 
-const PostCard = ({ data }) => {
+const PostCard = ({ data, handleLike }) => {
   const [user, setUser] = useState(null);
   useEffect(() => {
     axios
@@ -20,11 +18,12 @@ const PostCard = ({ data }) => {
         setUser(res.data.user);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err?.response?.data?.message);
       });
   }, [data]);
 
   const formatedDate = new Date(data ? data.createdAt : "").toDateString();
+
   if (data.l) {
     return (
       <div
@@ -81,10 +80,10 @@ const PostCard = ({ data }) => {
       <div className="p-5">
         <div className="flex justify-between items-center mb-2">
           <div>
-            <ThumbUpAltOutlinedIcon
+            <ThumbUpAltIcon
               style={{ color: "white" }}
               fontSize="small"
-            ></ThumbUpAltOutlinedIcon>
+            ></ThumbUpAltIcon>
             <span className="text-gray-400 ml-2 mt-1">
               {data ? data.likes.length : ""}
             </span>
@@ -97,11 +96,15 @@ const PostCard = ({ data }) => {
         </div>
         <div style={{ border: "0.025px solid gray" }} className="w-full"></div>
         <div className="flex items-center justify-between mt-3">
-          <div className="w-1/3 flex justify-center">
-            <ThumbUpAltOutlinedIcon
+          <div
+            className="w-1/3 flex justify-center"
+            style={{ cursor: "pointer" }}
+            onClick={() => handleLike(data)}
+          >
+            <ThumbUpAltIcon
               style={{ color: "white" }}
               fontSize="small"
-            ></ThumbUpAltOutlinedIcon>
+            ></ThumbUpAltIcon>
             <span className="text-white ml-2">Suka</span>
           </div>
           <div className="w-1/3 flex justify-center">

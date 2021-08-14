@@ -56,6 +56,19 @@ const MainContent = () => {
       });
   };
 
+  const handleLike = (data) => {
+    axios
+      .post(`http://localhost:3000/posts/${data ? data._id : ""}`, {
+        userId: USER ? USER._id : "",
+      })
+      .then((res) => {
+        dispatch(getTimeLine(USER ? USER._id : null));
+      })
+      .catch((err) => {
+        console.log(err?.response?.data?.message);
+      });
+  };
+
   const showModalPost = () => {
     setShowModal(!showModal);
   };
@@ -70,7 +83,7 @@ const MainContent = () => {
         <WritePost showModalPost={showModalPost}></WritePost>
         {POST.length > 0 &&
           POST.map((data, index) => {
-            return <PostCard key={index} data={data}></PostCard>;
+            return <PostCard key={index} data={data} handleLike={handleLike}></PostCard>;
           })}
         <div style={{ height: 50 }}></div>
       </div>
@@ -83,6 +96,7 @@ const MainContent = () => {
           setImagePreview={setImagePreview}
           onSubmit={onSubmit}
           handleChange={handleChange}
+          isLoading={isLoading}
         ></ModalPost>
       )}
     </div>

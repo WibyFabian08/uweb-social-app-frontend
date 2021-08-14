@@ -51,14 +51,12 @@ const ModalPost = ({
             {imagePreview && (
               <>
                 <h2 className="text-white my-3">Preview Image</h2>
-                <div className="flex flex-col items-center">
-                  <img
-                    width={200}
-                    className="object-cover rounded-lg"
-                    src={imagePreview}
-                    alt="preview"
-                  />
-                </div>
+                <img
+                  width={200}
+                  className="object-cover rounded-lg"
+                  src={imagePreview}
+                  alt="preview"
+                />
               </>
             )}
             <InputFile
