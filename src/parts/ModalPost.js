@@ -3,7 +3,15 @@ import Button from "../elements/Button";
 import InputFile from "../elements/InputFile";
 import InputPost from "../elements/InputPost";
 
-const ModalPost = ({ showModalPost }) => {
+const ModalPost = ({
+  showModalPost,
+  onSubmit,
+  handleChange,
+  isLoading,
+  imagePreview,
+  setImagePreview,
+  postBody,
+}) => {
   return (
     <div
       className="absolute inset-0 z-10 transition-all duration-300"
@@ -36,9 +44,35 @@ const ModalPost = ({ showModalPost }) => {
             className="w-full"
           ></div>
           <div className="p-5">
-            <InputPost></InputPost>
-            <InputFile></InputFile>
-            <Button type="post" label="Kirim"></Button>
+            <InputPost
+              value={postBody.desc}
+              onChange={(e) => handleChange(e)}
+            ></InputPost>
+            {imagePreview && (
+              <>
+                <h2 className="text-white my-3">Preview Image</h2>
+                <div className="flex flex-col items-center">
+                  <img
+                    width={200}
+                    className="object-cover rounded-lg"
+                    src={imagePreview}
+                    alt="preview"
+                  />
+                </div>
+              </>
+            )}
+            <InputFile
+              value={postBody.imgae}
+              onChange={(e) => handleChange(e)}
+              setImagePreview={setImagePreview}
+            ></InputFile>
+            {(postBody.desc.length > 1 || postBody.image) && (
+              <Button
+                type="post"
+                label={isLoading ? "Loading..." : "Kirim"}
+                onClick={() => onSubmit()}
+              ></Button>
+            )}
           </div>
         </div>
       </div>

@@ -38,6 +38,7 @@ const Button = ({ type, label, path, onClick }) => {
     return (
       <button
         className="w-full bg-blue-500 hover:bg-blue-400 text-white rounded-lg px-4 py-2 mt-2"
+        onClick={onClick}
       >
         {label}
       </button>

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import axios from "axios";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getTimeLine } from "../redux/action/postAction";
 
@@ -13,6 +15,46 @@ const MainContent = () => {
 
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
+
+  const [isLoading, setIsloading] = useState(false);
+  const [imagePreview, setImagePreview] = useState("");
+  const [postBody, setPostBody] = useState({
+    desc: "",
+    image: "",
+  });
+
+  const handleChange = (e) => {
+    setPostBody({
+      ...postBody,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onSubmit = () => {
+    setIsloading(true);
+    const data = new FormData();
+
+    data.append("userId", USER._id);
+    data.append("desc", postBody.desc);
+    data.append("image", postBody.image[0]);
+
+    axios
+      .post("http://localhost:3000/posts", data, {
+        headers: {
+          "Content-Type": "Multipart/Form-Data",
+        },
+      })
+      .then((res) => {
+        dispatch(getTimeLine(USER ? USER._id : null));
+        setIsloading(false);
+        setShowModal(false);
+      })
+      .catch((err) => {
+        console.log(err?.response?.data?.message);
+        setIsloading(false);
+        setShowModal(false);
+      });
+  };
 
   const showModalPost = () => {
     setShowModal(!showModal);
@@ -32,7 +74,17 @@ const MainContent = () => {
           })}
         <div style={{ height: 50 }}></div>
       </div>
-      {showModal && <ModalPost showModalPost={showModalPost}></ModalPost>}
+      {showModal && (
+        <ModalPost
+          showModalPost={showModalPost}
+          setShowModal={setShowModal}
+          postBody={postBody}
+          imagePreview={imagePreview}
+          setImagePreview={setImagePreview}
+          onSubmit={onSubmit}
+          handleChange={handleChange}
+        ></ModalPost>
+      )}
     </div>
   );
 };

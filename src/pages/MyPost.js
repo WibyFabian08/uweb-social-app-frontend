@@ -30,6 +30,7 @@ const MyPost = ({match}) => {
         console.log(err);
       });
   }, [match]);
+  
   return (
     <div
       style={{

@@ -23,7 +23,6 @@ const DetailHeader = ({ match }) => {
     axios
       .get(`http://localhost:3000/users/name/${match.params.username}`)
       .then((res) => {
-        console.log(res.data);
         setUser(res.data.user);
       })
       .catch((err) => {
