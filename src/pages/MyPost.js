@@ -7,7 +7,7 @@ import PostCard from "../parts/PostCard";
 import WritePost from "../parts/WritePost";
 import ModalPost from "../parts/ModalPost";
 
-import { getMyPost } from "../redux/action/postAction";
+import { getMyPost, getTimeLine } from "../redux/action/postAction";
 
 import LanguageIcon from "@material-ui/icons/Language";
 import PhoneIcon from "@material-ui/icons/Phone";
@@ -19,6 +19,7 @@ const MyPost = ({ match }) => {
   const USER = useSelector((state) => state.userState);
   const MYPOST = useSelector((state) => state.myPostState);
   const [showModal, setShowModal] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -33,6 +34,19 @@ const MyPost = ({ match }) => {
       })
       .then((res) => {
         dispatch(getMyPost(match ? match.params.username : ""));
+      })
+      .catch((err) => {
+        console.log(err?.response?.data?.message);
+      });
+  };
+
+  const handleDelete = (data) => {
+    axios
+      .delete(`http://localhost:3000/posts/${data ? data._id : ""}`)
+      .then((res) => {
+        dispatch(getTimeLine(USER ? USER._id : null));
+        dispatch(getMyPost(match ? match.params.username : ""));
+        setShowDelete(false);
       })
       .catch((err) => {
         console.log(err?.response?.data?.message);
@@ -117,6 +131,9 @@ const MyPost = ({ match }) => {
                     key={index}
                     data={data}
                     handleLike={handleLike}
+                    setShowDelete={setShowDelete}
+                    showDelete={showDelete}
+                    handleDelete={handleDelete}
                   ></PostCard>
                 );
               })}

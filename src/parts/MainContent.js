@@ -14,14 +14,15 @@ const MainContent = () => {
   const POST = useSelector((state) => state.timeLineState);
 
   const [showModal, setShowModal] = useState(false);
-  const dispatch = useDispatch();
-
   const [isLoading, setIsloading] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [imagePreview, setImagePreview] = useState("");
   const [postBody, setPostBody] = useState({
     desc: "",
     image: "",
   });
+
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setPostBody({
@@ -35,7 +36,7 @@ const MainContent = () => {
     const data = new FormData();
 
     data.append("userId", USER._id);
-    data.append("desc", postBody.desc);
+    data.append("body", postBody.desc);
     data.append("image", postBody.image[0]);
 
     axios
@@ -69,6 +70,18 @@ const MainContent = () => {
       });
   };
 
+  const handleDelete = (data) => {
+    axios
+      .delete(`http://localhost:3000/posts/${data._id}`)
+      .then((res) => {
+        dispatch(getTimeLine(USER ? USER._id : null));
+        setShowDelete(false)
+      })
+      .catch((err) => {
+        console.log(err?.response?.data?.message);
+      });
+  };
+
   const showModalPost = () => {
     setShowModal(!showModal);
   };
@@ -83,7 +96,16 @@ const MainContent = () => {
         <WritePost showModalPost={showModalPost}></WritePost>
         {POST.length > 0 &&
           POST.map((data, index) => {
-            return <PostCard key={index} data={data} handleLike={handleLike}></PostCard>;
+            return (
+              <PostCard
+                key={index}
+                data={data}
+                handleLike={handleLike}
+                handleDelete={handleDelete}
+                showDelete={showDelete}
+                setShowDelete={setShowDelete}
+              ></PostCard>
+            );
           })}
         <div style={{ height: 50 }}></div>
       </div>

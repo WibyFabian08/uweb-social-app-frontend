@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -11,6 +11,7 @@ import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 import profile from "../assets/images/profile.jpg";
 
 const DetailHeader = ({ match }) => {
+  const ACTIVEUSER = useSelector((state) => state.userState);
   const [user, setUser] = useState({});
   const inputRef = useRef(null);
   const coverRef = useRef(null);
@@ -94,21 +95,23 @@ const DetailHeader = ({ match }) => {
               backgroundSize: "cover",
             }}
           >
-            <div
-              className="absolute bg-white right-10 bottom-5 px-4 py-2 rounded-md flex items-center"
-              style={{ cursor: "pointer" }}
-              onClick={() => coverRef.current.click()}
-            >
-              <CameraAltIcon></CameraAltIcon>
-              <input
-                type="file"
-                name="image"
-                onChange={(e) => updateCoverImage(e)}
-                className="hidden"
-                ref={coverRef}
-              />
-              <p className="font-semibold ml-2">Edit Foto Sampul</p>
-            </div>
+            {ACTIVEUSER._id === user._id && (
+              <div
+                className="absolute bg-white right-10 bottom-5 px-4 py-2 rounded-md flex items-center"
+                style={{ cursor: "pointer" }}
+                onClick={() => coverRef.current.click()}
+              >
+                <CameraAltIcon></CameraAltIcon>
+                <input
+                  type="file"
+                  name="image"
+                  onChange={(e) => updateCoverImage(e)}
+                  className="hidden"
+                  ref={coverRef}
+                />
+                <p className="font-semibold ml-2">Edit Foto Sampul</p>
+              </div>
+            )}
           </div>
           <div className="profile-info container mx-auto px-10 -mt-5 relative">
             <div className="flex justify-between items-center">
@@ -128,20 +131,22 @@ const DetailHeader = ({ match }) => {
                       alt="profile"
                     />
                   </div>
-                  <div
-                    className="absolute bottom-0 right-0 bg-gray-700 rounded-full p-1"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => inputRef.current.click()}
-                  >
-                    <CameraAltIcon style={{ color: "white" }}></CameraAltIcon>
-                    <input
-                      type="file"
-                      name="image"
-                      onChange={(e) => updateProfileImage(e)}
-                      className="hidden"
-                      ref={inputRef}
-                    />
-                  </div>
+                  {ACTIVEUSER._id === user._id && (
+                    <div
+                      className="absolute bottom-0 right-0 bg-gray-700 rounded-full p-1"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => inputRef.current.click()}
+                    >
+                      <CameraAltIcon style={{ color: "white" }}></CameraAltIcon>
+                      <input
+                        type="file"
+                        name="image"
+                        onChange={(e) => updateProfileImage(e)}
+                        className="hidden"
+                        ref={inputRef}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="ml-3 flex flex-col justify-end h-full">
                   <h2 className="text-white text-2xl font-bold">
@@ -153,22 +158,27 @@ const DetailHeader = ({ match }) => {
                 </div>
               </div>
               <div className="flex items-center h-full">
-                <div
-                  className="bg-blue-500 flex items-center px-4 py-2 rounded-md mx-2"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => alert("ok")}
-                >
-                  <AddCircleIcon style={{ color: "white" }}></AddCircleIcon>
-                  <p className="text-white ml-1">Tambah Cerita</p>
-                </div>
-                <div
-                  className="bg-gray-600 flex items-center px-4 py-2 rounded-md"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => alert("ok")}
-                >
-                  <CreateIcon style={{ color: "white" }}></CreateIcon>
-                  <p className="text-white ml-1">Edit Profile</p>
-                </div>
+                {ACTIVEUSER._id === user._id && (
+                  <>
+                    {" "}
+                    <div
+                      className="bg-blue-500 flex items-center px-4 py-2 rounded-md mx-2"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => alert("ok")}
+                    >
+                      <AddCircleIcon style={{ color: "white" }}></AddCircleIcon>
+                      <p className="text-white ml-1">Tambah Cerita</p>
+                    </div>
+                    <div
+                      className="bg-gray-600 flex items-center px-4 py-2 rounded-md"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => alert("ok")}
+                    >
+                      <CreateIcon style={{ color: "white" }}></CreateIcon>
+                      <p className="text-white ml-1">Edit Profile</p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

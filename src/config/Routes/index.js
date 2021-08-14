@@ -12,6 +12,7 @@ import MyFoto from "../../pages/MyFoto";
 import MyFriend from "../../pages/MyFriend";
 import Login from "../../pages/Login";
 import Register from "../../pages/Register";
+import AllUser from "../../pages/AllUser";
 
 function Routes() {
   const history = createBrowserHistory({
@@ -49,6 +50,7 @@ function Routes() {
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/register" component={Register}></Route>
         <Route exact path="/" component={Home}></Route>
+        <Route exact path="/users" component={AllUser}></Route>
       </Switch>
     </Router>
   );

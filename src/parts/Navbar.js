@@ -1,13 +1,16 @@
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+
+import NavBrand from "../elements/NavBrand";
+
+import profile from "../assets/images/profile.jpg";
+
 import HomeIcon from "@material-ui/icons/Home";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import SendIcon from "@material-ui/icons/Send";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
-import profile from "../assets/images/profile.jpg";
-import NavBrand from "../elements/NavBrand";
 
 const Navbar = ({ match }) => {
   const USER = useSelector((state) => state.userState);
@@ -45,10 +48,10 @@ const Navbar = ({ match }) => {
           <div
             className={[
               "w-1/6 flex justify-center py-3",
-              getNavLink("/friends"),
+              getNavLink("/users"),
             ].join(" ")}
           >
-            <Link to="/">
+            <Link to="/users">
               <PeopleAltIcon
                 style={{ color: "white" }}
                 fontSize="large"

@@ -8,9 +8,17 @@ import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import ReplyOutlinedIcon from "@material-ui/icons/ReplyOutlined";
+import { useSelector } from "react-redux";
 
-const PostCard = ({ data, handleLike }) => {
+const PostCard = ({
+  data,
+  handleLike,
+  handleDelete,
+  showDelete,
+  setShowDelete,
+}) => {
   const [user, setUser] = useState(null);
+  const ACTIVEUSER = useSelector((state) => state.userState);
   useEffect(() => {
     axios
       .get(`http://localhost:3000/users/${data ? data.userId : ""}`)
@@ -41,31 +49,51 @@ const PostCard = ({ data, handleLike }) => {
       className="mb-5 w-full rounded-lg"
       style={{ backgroundColor: "#242526" }}
     >
-      <div className="flex justify-between items-center p-5">
-        <div className="flex items-center">
-          <div
-            className="overflow-hidden rounded-full"
-            style={{ width: 50, height: 50 }}
-          >
-            <img
-              src={
-                user ? `http://localhost:3000/${user.profilePicture}` : profile
-              }
-              className="object-cover w-full h-full"
-              alt="profile"
-            />
+      <div className="flex justify-between items-center p-5 relative">
+        <Link to={`profile/${user && user?.username}`}>
+          <div className="flex items-center">
+            <div
+              className="overflow-hidden rounded-full"
+              style={{ width: 50, height: 50 }}
+            >
+              <img
+                src={
+                  user
+                    ? `http://localhost:3000/${user && user.profilePicture}`
+                    : profile
+                }
+                className="object-cover w-full h-full"
+                alt="profile"
+              />
+            </div>
+            <div className="ml-3">
+              <h2 className="text-white">
+                {user ? user.username : "username"}
+              </h2>
+              <p className="text-gray-400 text-sm">
+                {data ? formatedDate : ""}
+              </p>
+            </div>
           </div>
-          <div className="ml-3">
-            <h2 className="text-white">{user ? user.username : "username"}</h2>
-            <p className="text-gray-400 text-sm">{data ? formatedDate : ""}</p>
-          </div>
-        </div>
-        <Link to="/">
-          <MoreHorizTwoToneIcon
-            style={{ color: "white" }}
-            fontSize="large"
-          ></MoreHorizTwoToneIcon>
         </Link>
+        <MoreHorizTwoToneIcon
+          style={{ color: "white", cursor: "pointer" }}
+          fontSize="large"
+          onClick={() => setShowDelete(!showDelete)}
+        ></MoreHorizTwoToneIcon>
+        {ACTIVEUSER && ACTIVEUSER._id === data.userId && (
+          <div
+            className="absolute z-30 right-14 -top-2 px-4 py-2 transition-all duration-300 ease-in-out"
+            onClick={() => handleDelete(data)}
+            style={{
+              backgroundColor: "#4a4a4a",
+              display: (showDelete) && (user && user._id === data.userId) ? "block" : "none",
+              cursor: "pointer",
+            }}
+          >
+            <h2 className="text-white">Hapus Postingan</h2>
+          </div>
+        )}
       </div>
       <div className="w-full">
         <div className="px-5">
