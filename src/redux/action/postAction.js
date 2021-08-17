@@ -46,25 +46,25 @@ export const deletePost = (data, setShowDelete, USER) => (dispatch) => {
 
 export const likePost = (data, USER) => (dispatch) => {
   axios
-      .post(`http://localhost:3000/posts/${data ? data._id : ""}`, {
-        userId: USER ? USER._id : "",
-      })
-      .then((res) => {
-        dispatch(getTimeLine(USER ? USER._id : null));
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
-}
+    .post(`http://localhost:3000/posts/${data ? data._id : ""}`, {
+      userId: USER ? USER._id : "",
+    })
+    .then((res) => {
+      dispatch(getTimeLine(USER ? USER._id : null));
+    })
+    .catch((err) => {
+      console.log(err?.response?.data?.message);
+    });
+};
 
-export const getTimeLine = (_id) => (dispatch) => {
+export const getTimeLine = (id) => (dispatch) => {
   axios
-    .get(`http://localhost:3000/posts/timeline/${_id}`)
+    .get(`http://localhost:3000/posts/timeline/${id}`)
     .then((res) => {
       dispatch({ type: "SET_TIMELINE", value: res.data.timeline });
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err?.response?.data?.message);
     });
 };
 

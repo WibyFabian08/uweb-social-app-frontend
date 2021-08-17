@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { format } from "timeago.js";
-import { useDispatch, useSelector } from "react-redux";
-
-import profile from "../assets/images/profile.jpg";
+import { useDispatch } from "react-redux";
 
 import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
@@ -19,12 +17,15 @@ const PostCard = ({
   setShowDelete,
 }) => {
   const [user, setUser] = useState(null);
-  const ACTIVEUSER = useSelector((state) => state.userState);
+  const [ACTIVEUSER, setACTIVEUSER] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUser(data ? data.userId : "", setUser));
-  }, [data]);
+    dispatch(getUser(data.userId, setUser));
+
+    const dataUser = JSON.parse(localStorage.getItem("user"));
+    setACTIVEUSER(dataUser);
+  }, [dispatch, setUser, data.userId]);
 
   if (!data) {
     return (
@@ -40,7 +41,7 @@ const PostCard = ({
   }
   return (
     <div
-      className="mb-5 w-full rounded-lg"
+      className="mb-5 w-full rounded-lg mt-5"
       style={{ backgroundColor: "#242526" }}
     >
       <div className="flex justify-between items-center p-5 relative">
@@ -54,7 +55,7 @@ const PostCard = ({
                 src={
                   user
                     ? `http://localhost:3000/${user && user.profilePicture}`
-                    : profile
+                    : ""
                 }
                 className="object-cover w-full h-full"
                 alt="profile"

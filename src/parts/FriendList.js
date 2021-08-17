@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import profile from "../assets/images/profile.jpg";
 
-import { useEffect } from "react";
-import axios from "axios";
-
 const FriendList = ({ data }) => {
-  const [friend, setFriend] = useState({});
-
-  console.log(data)
+  const [friend] = useState({});
 
   // useEffect(() => {
   //   axios

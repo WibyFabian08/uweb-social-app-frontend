@@ -1,10 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 
 import InputFile from "../elements/InputFile";
 
 const WritePost = ({ showModalPost }) => {
-  const USER = useSelector((state) => state.userState);
+  const [USER, setUSER] = useState({});
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("user"));
+    setUSER(data);
+  }, []);
+
   return (
     <div
       className="input-post w-full mt-5 rounded-lg p-5 mb-5"
@@ -19,7 +24,7 @@ const WritePost = ({ showModalPost }) => {
             src={
               USER && USER.profilePicture
                 ? `http://localhost:3000/${USER.profilePicture}`
-                : ''
+                : ""
             }
             className="w-full h-full object-cover"
             alt="profile"

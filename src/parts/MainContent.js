@@ -13,9 +13,9 @@ import PostCard from "./PostCard";
 import WritePost from "./WritePost";
 
 const MainContent = () => {
-  const USER = useSelector((state) => state.userState);
   const POST = useSelector((state) => state.timeLineState);
-
+  
+  const [USER, setUSER] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsloading] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -58,8 +58,13 @@ const MainContent = () => {
   };
 
   useEffect(() => {
-    dispatch(getTimeLine(USER ? USER._id : null));
-  }, [USER, dispatch]);
+    const data = JSON.parse(localStorage.getItem("user"));
+    setUSER(data);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getTimeLine(USER ? USER._id : ""));
+  }, [dispatch, USER]);
 
   return (
     <div className="w-1/2 px-20 mb-20">

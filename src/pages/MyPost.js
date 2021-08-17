@@ -20,9 +20,10 @@ import SportsBasketballIcon from "@material-ui/icons/SportsBasketball";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 
 const MyPost = ({ match }) => {
-  const USER = useSelector((state) => state.userState);
+  // const USER = useSelector((state) => state.userState);
   const MYPOST = useSelector((state) => state.myPostState);
-
+  
+  const [USER, setUSER] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -68,6 +69,8 @@ const MyPost = ({ match }) => {
   };
 
   useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("user"));
+    setUSER(data);
     dispatch(getMyPost(match ? match.params.username : ""));
   }, [match, dispatch]);
 
@@ -137,8 +140,10 @@ const MyPost = ({ match }) => {
             </div>
           </div>
           <div className="w-3/5">
-            <WritePost showModalPost={showModalPost}></WritePost>
-            {MYPOST.length > 0 &&
+            {match.params.username === USER?.username && (
+              <WritePost showModalPost={showModalPost}></WritePost>
+            )}
+            {MYPOST.length > 0 ?
               MYPOST.map((data, index) => {
                 return (
                   <PostCard
@@ -150,7 +155,7 @@ const MyPost = ({ match }) => {
                     handleDelete={handleDelete}
                   ></PostCard>
                 );
-              })}
+              }) : <div className="mt-5"><h2 className="text-white text-xl font-bold text-center">Belum Ada Postingan</h2></div>}
             {showModal && (
               <ModalPost
                 showModalPost={showModalPost}

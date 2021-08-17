@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { logout } from "../redux/action/authAction";
 
@@ -9,37 +9,46 @@ import leftSidebar from "../json/leftSidebar";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const LeftSidebar = () => {
-  const USER = useSelector((state) => state.userState);
+  const [USER, setUSER] = useState({});
 
   const history = useHistory();
   const dispatch = useDispatch();
 
   const signOut = () => {
+    const data = JSON.parse(localStorage.getItem('user'));
+    setUSER(data)
     dispatch(logout(history));
   };
-  
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('user'));
+    setUSER(data)
+  }, []);
+
   return (
     <div className="w-3/12 sticky top-0 px-5">
       <div className="sidebar-left flex flex-col h-screen overflow-y-auto">
-        <div className="flex items-center mt-5">
-          <div
-            className="overflow-hidden rounded-full"
-            style={{ width: 40, height: 40 }}
-          >
-            <img
-              src={
-                USER && USER.profilePicture
-                  ? `http://localhost:3000/${USER.profilePicture}`
-                  : ''
-              }
-              className="w-full h-full object-cover"
-              alt="profile"
-            />
+        <Link to={`/profile/${USER && USER?.username}`}>
+          <div className="flex items-center mt-5">
+            <div
+              className="overflow-hidden rounded-full bg-white"
+              style={{ width: 40, height: 40 }}
+            >
+              <img
+                src={
+                  USER && USER?.profilePicture
+                    ? `http://localhost:3000/${USER && USER?.profilePicture}`
+                    : ""
+                }
+                className="w-full h-full object-cover"
+                alt="profile"
+              />
+            </div>
+            <h2 className="text-white font-bold ml-2 truncate ...">
+              {USER && USER?.username}
+            </h2>
           </div>
-          <h2 className="text-white font-bold ml-2 truncate ...">
-            {USER && USER.username}
-          </h2>
-        </div>
+        </Link>
         {leftSidebar.map((data, index) => {
           return (
             <Link to={data.href} key={index}>

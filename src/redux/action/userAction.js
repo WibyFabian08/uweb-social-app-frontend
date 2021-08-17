@@ -8,7 +8,7 @@ export const getUsers = (setUsers) => (dispatch) => {
       setUsers(res.data.users);
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err?.response?.data?.message);
     });
 };
 
@@ -17,7 +17,7 @@ export const getUser = (userId, setUser) => (dispatch) => {
     .get(`http://localhost:3000/users/${userId}`)
     .then((res) => {
       dispatch({ type: "SET_USER", value: res.data.user });
-      setUser(res.data.user)
+      setUser(res.data.user);
     })
     .catch((err) => {
       console.log(err?.response?.data?.message);
@@ -67,8 +67,7 @@ export const updateCoverPicture = (user, data, setUser) => (dispatch) => {
     });
 };
 
-export const follow =
-  (id, ACTIVEUSER, getHeaderProfile, setIsLoading) => (dispatch) => {
+export const follow = (id, ACTIVEUSER, getHeaderProfile, setIsLoading) => (dispatch) => {
     setIsLoading(true);
     axios
       .post(`http://localhost:3000/users/follow/${id}`, {
@@ -79,12 +78,12 @@ export const follow =
         setIsLoading(false);
       })
       .catch((err) => {
+        console.log(err?.response?.data?.message)
         setIsLoading(false);
       });
   };
 
-export const unFollow =
-  (id, ACTIVEUSER, getHeaderProfile, setIsLoading) => (dispatch) => {
+export const unFollow = (id, ACTIVEUSER, getHeaderProfile, setIsLoading) => (dispatch) => {
     setIsLoading(true);
     axios
       .post(`http://localhost:3000/users/unfollow/${id}`, {

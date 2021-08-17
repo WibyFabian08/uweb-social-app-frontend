@@ -50,10 +50,10 @@ const ModalPost = ({
             ></InputPost>
             {imagePreview && (
               <>
-                <h2 className="text-white my-3">Preview Image</h2>
+                <h2 className="text-white my-3 w-full">Preview Image</h2>
                 <img
-                  width={200}
-                  className="object-cover rounded-lg"
+                  height={50}
+                  className="object-cover rounded-lg mx-auto w-1/2"
                   src={imagePreview}
                   alt="preview"
                 />
@@ -64,7 +64,7 @@ const ModalPost = ({
               onChange={(e) => handleChange(e)}
               setImagePreview={setImagePreview}
             ></InputFile>
-            {(postBody && postBody?.desc.length > 1 || postBody?.image) && (
+            {((postBody && postBody?.desc.length > 1) || postBody?.image) && (
               <Button
                 type="post"
                 label={isLoading ? "Loading..." : "Kirim"}

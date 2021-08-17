@@ -1,23 +1,25 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 import NavBrand from "../elements/NavBrand";
 
-import profile from "../assets/images/profile.jpg";
-
 import HomeIcon from "@material-ui/icons/Home";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import SendIcon from "@material-ui/icons/Send";
-import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+
+import profile from "../assets/images/profile.jpg";
 
 const Navbar = ({ match }) => {
-  const USER = useSelector((state) => state.userState);
+  const [USER, setUSER] = useState({});
 
   const getNavLink = (path) => {
     return path === match.path ? "border-b-4 border-solid border-blue-200" : "";
   };
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("user"));
+    setUSER(data);
+  }, []);
 
   return (
     <div
@@ -65,10 +67,7 @@ const Navbar = ({ match }) => {
             ].join(" ")}
           >
             <Link to="/">
-              <SendIcon
-                style={{ color: "white" }}
-                fontSize="large"
-              ></SendIcon>
+              <SendIcon style={{ color: "white" }} fontSize="large"></SendIcon>
             </Link>
           </div>
         </div>

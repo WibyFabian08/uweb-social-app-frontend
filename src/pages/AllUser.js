@@ -15,7 +15,7 @@ const AllUser = () => {
 
   useEffect(() => {
     dispatch(getUsers(setUsers));
-  }, []);
+  }, [dispatch]);
 
   return (
     <div

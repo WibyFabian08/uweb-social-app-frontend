@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   follow,
@@ -16,7 +16,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 
 const DetailHeader = ({ match }) => {
-  const ACTIVEUSER = useSelector((state) => state.userState);
+  const [ACTIVEUSER, setACTIVEUSER] = useState({});
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -66,6 +66,8 @@ const DetailHeader = ({ match }) => {
 
   useEffect(() => {
     getHeaderProfile();
+    const dataUser = JSON.parse(localStorage.getItem("user"));
+    setACTIVEUSER(dataUser);
   }, [match.params.username, dispatch]);
 
   if (!user) {
