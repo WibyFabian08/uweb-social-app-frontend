@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getUsers } from "../redux/action/userAction";
+
 import SearchIcon from "@material-ui/icons/Search";
 import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 
-import profile from "../assets/images/profile.jpg";
-import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../redux/action/userAction";
 
 const RightSidebar = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const RightSidebar = () => {
                         src={
                           data.profilePicture
                             ? `http://localhost:3000/${data.profilePicture}`
-                            : profile
+                            : ''
                         }
                         className="w-full h-full object-cover"
                         alt="profile"

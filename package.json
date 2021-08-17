@@ -20,6 +20,7 @@
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
     "tailwindcss": "^2.2.7",
+    "timeago.js": "^4.0.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

@@ -45,7 +45,7 @@ const ModalPost = ({
           ></div>
           <div className="p-5">
             <InputPost
-              value={postBody.desc}
+              value={postBody && postBody?.desc}
               onChange={(e) => handleChange(e)}
             ></InputPost>
             {imagePreview && (
@@ -60,11 +60,11 @@ const ModalPost = ({
               </>
             )}
             <InputFile
-              value={postBody.imgae}
+              value={postBody && postBody?.imgae}
               onChange={(e) => handleChange(e)}
               setImagePreview={setImagePreview}
             ></InputFile>
-            {(postBody.desc.length > 1 || postBody.image) && (
+            {(postBody && postBody?.desc.length > 1 || postBody?.image) && (
               <Button
                 type="post"
                 label={isLoading ? "Loading..." : "Kirim"}

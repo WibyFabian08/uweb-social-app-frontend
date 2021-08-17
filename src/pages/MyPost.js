@@ -1,56 +1,70 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { withRouter } from "react-router-dom";
 
+import {
+  createPost,
+  deletePost,
+  getMyPost,
+  likePost,
+} from "../redux/action/postAction";
+
+import ModalPost from "../parts/ModalPost";
 import PostCard from "../parts/PostCard";
 import WritePost from "../parts/WritePost";
-import ModalPost from "../parts/ModalPost";
 
-import { getMyPost, getTimeLine } from "../redux/action/postAction";
-
+import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import LanguageIcon from "@material-ui/icons/Language";
 import PhoneIcon from "@material-ui/icons/Phone";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import SportsBasketballIcon from "@material-ui/icons/SportsBasketball";
-import ImportContactsIcon from "@material-ui/icons/ImportContacts";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 
 const MyPost = ({ match }) => {
   const USER = useSelector((state) => state.userState);
   const MYPOST = useSelector((state) => state.myPostState);
+
+  const [isLoading, setIsloading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [imagePreview, setImagePreview] = useState("");
+  const [postBody, setPostBody] = useState({
+    desc: "",
+    image: "",
+  });
 
   const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    setPostBody({
+      ...postBody,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const showModalPost = () => {
     setShowModal(!showModal);
   };
 
+  const onSubmit = () => {
+    const data = new FormData();
+
+    data.append("userId", USER._id);
+    data.append("body", postBody.desc);
+    data.append("image", postBody.image[0]);
+    dispatch(
+      createPost(data, setIsloading, setShowModal, USER, setPostBody, postBody)
+    );
+    dispatch(getMyPost(match ? match.params.username : ""));
+  };
+
   const handleLike = (data) => {
-    axios
-      .post(`http://localhost:3000/posts/${data ? data._id : ""}`, {
-        userId: USER ? USER._id : "",
-      })
-      .then((res) => {
-        dispatch(getMyPost(match ? match.params.username : ""));
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
+    dispatch(likePost(data, USER));
+    dispatch(getMyPost(match ? match.params.username : ""));
   };
 
   const handleDelete = (data) => {
-    axios
-      .delete(`http://localhost:3000/posts/${data ? data._id : ""}`)
-      .then((res) => {
-        dispatch(getTimeLine(USER ? USER._id : null));
-        dispatch(getMyPost(match ? match.params.username : ""));
-        setShowDelete(false);
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
+    dispatch(deletePost(data, setShowDelete, USER));
+    dispatch(getMyPost(match ? match.params.username : ""));
   };
 
   useEffect(() => {
@@ -137,7 +151,18 @@ const MyPost = ({ match }) => {
                   ></PostCard>
                 );
               })}
-            {showModal && <ModalPost showModalPost={showModalPost}></ModalPost>}
+            {showModal && (
+              <ModalPost
+                showModalPost={showModalPost}
+                setShowModal={setShowModal}
+                postBody={postBody}
+                imagePreview={imagePreview}
+                setImagePreview={setImagePreview}
+                onSubmit={onSubmit}
+                handleChange={handleChange}
+                isLoading={isLoading}
+              ></ModalPost>
+            )}
           </div>
         </div>
       </div>

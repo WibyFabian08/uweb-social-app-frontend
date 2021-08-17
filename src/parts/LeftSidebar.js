@@ -1,10 +1,12 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import profile from "../assets/images/profile.jpg";
-import leftSidebar from "../json/leftSidebar";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useDispatch, useSelector } from "react-redux";
+
 import { logout } from "../redux/action/authAction";
+
+import leftSidebar from "../json/leftSidebar";
+
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const LeftSidebar = () => {
   const USER = useSelector((state) => state.userState);
@@ -15,6 +17,7 @@ const LeftSidebar = () => {
   const signOut = () => {
     dispatch(logout(history));
   };
+  
   return (
     <div className="w-3/12 sticky top-0 px-5">
       <div className="sidebar-left flex flex-col h-screen overflow-y-auto">
@@ -27,7 +30,7 @@ const LeftSidebar = () => {
               src={
                 USER && USER.profilePicture
                   ? `http://localhost:3000/${USER.profilePicture}`
-                  : profile
+                  : ''
               }
               className="w-full h-full object-cover"
               alt="profile"
@@ -39,7 +42,7 @@ const LeftSidebar = () => {
         </div>
         {leftSidebar.map((data, index) => {
           return (
-            <Link to="/" key={index}>
+            <Link to={data.href} key={index}>
               <div className="flex items-center mt-5" key={index}>
                 {data.icon}
                 <h2 className="text-white font-bold ml-2 truncate ...">

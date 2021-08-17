@@ -1,24 +1,20 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import LeftSidebar from "../parts/LeftSidebar";
 import Navbar from "../parts/Navbar";
 import RightSidebar from "../parts/RightSidebar";
 import UserContent from "../parts/UsersContent";
 
+import { getUsers } from "../redux/action/userAction";
+
 const AllUser = () => {
   const [users, setUsers] = useState([]);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/users")
-      .then((res) => {
-        console.log(res.data.users);
-        setUsers(res.data.users)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(getUsers(setUsers));
   }, []);
 
   return (

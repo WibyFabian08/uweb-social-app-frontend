@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import profile from "../assets/images/profile.jpg";
+
 import InputFile from "../elements/InputFile";
 
 const WritePost = ({ showModalPost }) => {
@@ -19,7 +19,7 @@ const WritePost = ({ showModalPost }) => {
             src={
               USER && USER.profilePicture
                 ? `http://localhost:3000/${USER.profilePicture}`
-                : profile
+                : ''
             }
             className="w-full h-full object-cover"
             alt="profile"

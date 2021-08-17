@@ -65,15 +65,15 @@ const Navbar = ({ match }) => {
             ].join(" ")}
           >
             <Link to="/">
-              <VideoLibraryIcon
+              <SendIcon
                 style={{ color: "white" }}
                 fontSize="large"
-              ></VideoLibraryIcon>
+              ></SendIcon>
             </Link>
           </div>
         </div>
       </div>
-      <div className="w-3/12">
+      <div className="w-3/12 px-3">
         <div className="flex justify-start items-center">
           <div className="px-4 flex items-center">
             <Link to={`/profile/${USER && USER.username}`}>
@@ -96,16 +96,6 @@ const Navbar = ({ match }) => {
             <h2 className="text-white font-bold ml-2 truncate ...">
               {USER && USER.username}
             </h2>
-          </div>
-          <div className="px-4">
-            <Link to="/">
-              <SendIcon style={{ color: "white" }}></SendIcon>
-            </Link>
-          </div>
-          <div className="px-4">
-            <Link to="/">
-              <NotificationsIcon style={{ color: "white" }}></NotificationsIcon>
-            </Link>
           </div>
         </div>
       </div>

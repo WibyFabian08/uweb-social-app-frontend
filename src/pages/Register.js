@@ -1,13 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 import AuthCard from "../parts/AuthCard";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { daftar } from "../redux/action/authAction";
-import { useHistory } from "react-router-dom";
 
 const Register = () => {
   const { error, loading } = useSelector((state) => state.globalState);

@@ -10,36 +10,43 @@ const leftSidebar = [
     {
         id: 1,
         icon: <PeopleAltIcon fontSize="large" style={{color: 'white'}}></PeopleAltIcon>,
-        desc: 'Teman'
+        href: '/users',
+        desc: 'User'
     },
     {
         id: 2,
         icon: <VideoLibraryIcon fontSize="large" style={{color: 'white'}}></VideoLibraryIcon>,
+        href: '#',
         desc: 'Watch'
     },
     {
         id: 3,
         icon: <CalendarTodayIcon fontSize="large" style={{color: 'white'}}></CalendarTodayIcon>,
+        href: '#',
         desc: 'Acara'
     },
     {
         id: 4,
         icon: <AccessTimeIcon fontSize="large" style={{color: 'white'}}></AccessTimeIcon>,
+        href: '#',
         desc: 'Kenangan'
     },
     {
         id: 5,
         icon: <BookmarkIcon fontSize="large" style={{color: 'white'}}></BookmarkIcon>,
+        href: '#',
         desc: 'Tersimpan'
     },
     {
         id: 6,
         icon: <GroupAddTwoToneIcon fontSize="large" style={{color: 'white'}}></GroupAddTwoToneIcon>,
+        href: '#',
         desc: 'Grup'
     },
     {
         id: 7,
         icon: <StoreTwoToneIcon fontSize="large" style={{color: 'white'}}></StoreTwoToneIcon>,
+        href: '#',
         desc: 'Marketplace'
     },
 ]

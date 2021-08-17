@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
-
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTimeLine } from "../redux/action/postAction";
+
+import {
+  createPost,
+  deletePost,
+  getTimeLine,
+  likePost,
+} from "../redux/action/postAction";
 
 import ModalPost from "./ModalPost";
 import PostCard from "./PostCard";
@@ -32,54 +35,22 @@ const MainContent = () => {
   };
 
   const onSubmit = () => {
-    setIsloading(true);
     const data = new FormData();
 
     data.append("userId", USER._id);
     data.append("body", postBody.desc);
     data.append("image", postBody.image[0]);
-
-    axios
-      .post("http://localhost:3000/posts", data, {
-        headers: {
-          "Content-Type": "Multipart/Form-Data",
-        },
-      })
-      .then((res) => {
-        dispatch(getTimeLine(USER ? USER._id : null));
-        setIsloading(false);
-        setShowModal(false);
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-        setIsloading(false);
-        setShowModal(false);
-      });
+    dispatch(
+      createPost(data, setIsloading, setShowModal, USER, setPostBody, postBody)
+    );
   };
 
   const handleLike = (data) => {
-    axios
-      .post(`http://localhost:3000/posts/${data ? data._id : ""}`, {
-        userId: USER ? USER._id : "",
-      })
-      .then((res) => {
-        dispatch(getTimeLine(USER ? USER._id : null));
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
+    dispatch(likePost(data, USER));
   };
 
   const handleDelete = (data) => {
-    axios
-      .delete(`http://localhost:3000/posts/${data._id}`)
-      .then((res) => {
-        dispatch(getTimeLine(USER ? USER._id : null));
-        setShowDelete(false)
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
+    dispatch(deletePost(data, setShowDelete, USER));
   };
 
   const showModalPost = () => {

@@ -1,21 +1,37 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, withRouter } from "react-router-dom";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+
+import {
+  follow,
+  getUserByName,
+  unFollow,
+  updateCoverPicture,
+  updateProfilePicture,
+} from "../redux/action/userAction";
 
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import CreateIcon from "@material-ui/icons/Create";
 import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 
-import profile from "../assets/images/profile.jpg";
-
 const DetailHeader = ({ match }) => {
   const ACTIVEUSER = useSelector((state) => state.userState);
   const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const inputRef = useRef(null);
   const coverRef = useRef(null);
+
   const dispatch = useDispatch();
+
+  const handleFollow = (id) => {
+    dispatch(follow(id, ACTIVEUSER, getHeaderProfile, setIsLoading));
+  };
+
+  const handleUnFollow = (id) => {
+    dispatch(unFollow(id, ACTIVEUSER, getHeaderProfile, setIsLoading));
+  };
 
   const updateProfileImage = (e) => {
     const data = new FormData();
@@ -23,19 +39,8 @@ const DetailHeader = ({ match }) => {
     data.append("userId", user._id);
     data.append("image", e.target.files[0]);
 
-    axios
-      .put(`http://localhost:3000/users/${user._id}`, data, {
-        headers: {
-          "Content-Type": "Multipart/Form-Data",
-        },
-      })
-      .then((res) => {
-        dispatch({ type: "SET_USER", value: res.data.user });
-        setUser(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
+    dispatch(updateProfilePicture(user, data, setUser));
+    getHeaderProfile();
   };
 
   const updateCoverImage = (e) => {
@@ -43,19 +48,8 @@ const DetailHeader = ({ match }) => {
 
     data.append("image", e.target.files[0]);
 
-    axios
-      .put(`http://localhost:3000/users/${user._id}/cover`, data, {
-        headers: {
-          "Content-Type": "Multipart/Form-Data",
-        },
-      })
-      .then((res) => {
-        dispatch({ type: "SET_USER", value: res.data.user });
-        setUser(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
+    dispatch(updateCoverPicture(user, data, setUser));
+    getHeaderProfile();
   };
 
   const getNavLink = (path) => {
@@ -66,15 +60,12 @@ const DetailHeader = ({ match }) => {
     return path === match.path ? "text-blue-500" : "text-white";
   };
 
+  const getHeaderProfile = () => {
+    dispatch(getUserByName(match.params.username, setUser));
+  };
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/users/name/${match.params.username}`)
-      .then((res) => {
-        setUser(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
+    getHeaderProfile();
   }, [match.params.username, dispatch]);
 
   if (!user) {
@@ -95,7 +86,7 @@ const DetailHeader = ({ match }) => {
               backgroundSize: "cover",
             }}
           >
-            {ACTIVEUSER._id === user._id && (
+            {ACTIVEUSER && ACTIVEUSER?._id === user._id && (
               <div
                 className="absolute bg-white right-10 bottom-5 px-4 py-2 rounded-md flex items-center"
                 style={{ cursor: "pointer" }}
@@ -115,54 +106,76 @@ const DetailHeader = ({ match }) => {
           </div>
           <div className="profile-info container mx-auto px-10 -mt-5 relative">
             <div className="flex justify-between items-center">
-              <div className="flex items-center">
-                <div className="relative">
-                  <div
-                    className="overflow-hidden rounded-full bg-white"
-                    style={{ width: 120, height: 120 }}
-                  >
-                    <img
-                      src={
-                        user
-                          ? `http://localhost:3000/${user.profilePicture}`
-                          : profile
-                      }
-                      className="object-cover w-full h-full"
-                      alt="profile"
-                    />
-                  </div>
-                  {ACTIVEUSER._id === user._id && (
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center">
+                  <div className="relative">
                     <div
-                      className="absolute bottom-0 right-0 bg-gray-700 rounded-full p-1"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => inputRef.current.click()}
+                      className="overflow-hidden rounded-full bg-white"
+                      style={{ width: 120, height: 120 }}
                     >
-                      <CameraAltIcon style={{ color: "white" }}></CameraAltIcon>
-                      <input
-                        type="file"
-                        name="image"
-                        onChange={(e) => updateProfileImage(e)}
-                        className="hidden"
-                        ref={inputRef}
+                      <img
+                        src={
+                          user
+                            ? `http://localhost:3000/${user.profilePicture}`
+                            : ""
+                        }
+                        className="object-cover w-full h-full"
+                        alt="profile"
                       />
                     </div>
-                  )}
-                </div>
-                <div className="ml-3 flex flex-col justify-end h-full">
-                  <h2 className="text-white text-2xl font-bold">
-                    {user && user.username}
-                  </h2>
-                  <p className="text-white font-bold">
-                    {user && user.followers && user.followers.length} Pengikut
-                  </p>
+                    {ACTIVEUSER._id === user._id && (
+                      <div
+                        className="absolute bottom-0 right-0 bg-gray-700 rounded-full p-1"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => inputRef.current.click()}
+                      >
+                        <CameraAltIcon
+                          style={{ color: "white" }}
+                        ></CameraAltIcon>
+                        <input
+                          type="file"
+                          name="image"
+                          onChange={(e) => updateProfileImage(e)}
+                          className="hidden"
+                          ref={inputRef}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className="ml-3 flex flex-col justify-end h-full">
+                    <h2 className="text-white text-2xl font-bold">
+                      {user && user.username}
+                    </h2>
+                    <p className="text-white font-bold">
+                      {user && user.followers && user.followers.length} Pengikut
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center h-full">
+              <div className="flex justify-end items-center h-full w-full">
+                {user._id !== ACTIVEUSER._id &&
+                  (user && !user?.followers?.includes(ACTIVEUSER._id) ? (
+                    <button
+                      className="px-4 py-2 bg-blue-500 hover:bg-blue-400 rounded-md text-white font-bold ml-auto"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleFollow(user._id)}
+                    >
+                      {isLoading ? "Loading..." : "+ Follow"}
+                    </button>
+                  ) : (
+                    <button
+                      className="px-4 py-2 bg-blue-500 hover:bg-blue-400 rounded-md text-white font-bold ml-auto"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleUnFollow(user._id)}
+                    >
+                      {isLoading ? "Loading..." : "- UnFollow"}
+                    </button>
+                  ))}
                 {ACTIVEUSER._id === user._id && (
                   <>
                     {" "}
                     <div
-                      className="bg-blue-500 flex items-center px-4 py-2 rounded-md mx-2"
+                      className="bg-blue-500 hover:bg-blue-400 flex items-center px-4 py-2 rounded-md mx-2"
                       style={{ cursor: "pointer" }}
                       onClick={() => alert("ok")}
                     >
@@ -170,7 +183,7 @@ const DetailHeader = ({ match }) => {
                       <p className="text-white ml-1">Tambah Cerita</p>
                     </div>
                     <div
-                      className="bg-gray-600 flex items-center px-4 py-2 rounded-md"
+                      className="bg-gray-600 hover:bg-gray-500 flex items-center px-6 py-2 rounded-md"
                       style={{ cursor: "pointer" }}
                       onClick={() => alert("ok")}
                     >

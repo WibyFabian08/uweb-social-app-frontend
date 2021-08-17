@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { format } from "timeago.js";
+import { useDispatch, useSelector } from "react-redux";
 
 import profile from "../assets/images/profile.jpg";
 
@@ -8,7 +9,7 @@ import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import ReplyOutlinedIcon from "@material-ui/icons/ReplyOutlined";
-import { useSelector } from "react-redux";
+import { getUser } from "../redux/action/userAction";
 
 const PostCard = ({
   data,
@@ -19,20 +20,13 @@ const PostCard = ({
 }) => {
   const [user, setUser] = useState(null);
   const ACTIVEUSER = useSelector((state) => state.userState);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/users/${data ? data.userId : ""}`)
-      .then((res) => {
-        setUser(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
+    dispatch(getUser(data ? data.userId : "", setUser));
   }, [data]);
 
-  const formatedDate = new Date(data ? data.createdAt : "").toDateString();
-
-  if (data.l) {
+  if (!data) {
     return (
       <div
         className="mb-5 w-full rounded-lg"
@@ -71,7 +65,7 @@ const PostCard = ({
                 {user ? user.username : "username"}
               </h2>
               <p className="text-gray-400 text-sm">
-                {data ? formatedDate : ""}
+                {data ? format(data.createdAt) : ""}
               </p>
             </div>
           </div>
@@ -87,7 +81,10 @@ const PostCard = ({
             onClick={() => handleDelete(data)}
             style={{
               backgroundColor: "#4a4a4a",
-              display: (showDelete) && (user && user._id === data.userId) ? "block" : "none",
+              display:
+                showDelete && user && user._id === data.userId
+                  ? "block"
+                  : "none",
               cursor: "pointer",
             }}
           >

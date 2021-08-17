@@ -12,10 +12,7 @@ const MyFriend = () => {
     >
       <div className="container mx-auto py-5 px-40">
         <div className="w-full">
-          {USER &&
-            USER?.followers.map((data, index) => {
-              return <FriendList data={data} key={index}></FriendList>;
-            })}
+          <FriendList data={USER}></FriendList>;
         </div>
       </div>
     </div>

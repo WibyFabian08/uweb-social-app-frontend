@@ -14,7 +14,6 @@ const Home = () => {
     if (USER === null) {
       history.push("/login");
     }
-    
   }, [history]);
   return (
     <div
