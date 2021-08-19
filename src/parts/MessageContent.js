@@ -2,6 +2,24 @@ import React, { useState } from "react";
 import Conversation from "../parts/Conversation";
 
 const MessageContent = () => {
+  const data = [
+    {
+      owner: "mine",
+      text: "haloo apakabar?",
+    },
+    {
+      owner: "other",
+      text: "kabar baik, bagaimana dengan anda?",
+    },
+    {
+      owner: "mine",
+      text: "alhamdulillah baik",
+    },
+    {
+      owner: "other",
+      text: "baik kalau begitu",
+    },
+  ];
   const [body, setBody] = useState("");
   return (
     <div className="w-1/2 mb-5 text-white">
@@ -10,10 +28,16 @@ const MessageContent = () => {
           style={{ height: "calc(100vh - 150px)" }}
           className="w-4/5 p-5 mx-auto overflow-y-auto rounded-lg"
         >
-          <Conversation></Conversation>
-          <Conversation mine></Conversation>
-          <Conversation></Conversation>
-          <Conversation mine></Conversation>
+          {data &&
+            data.map((data, index) => {
+              return (
+                <Conversation
+                  data={data}
+                  mine={data.owner === "mine" && true}
+                  key={index}
+                ></Conversation>
+              );
+            })}
         </div>
         <div className="flex items-center w-full px-16 mt-5">
           <div className="w-full px-1">

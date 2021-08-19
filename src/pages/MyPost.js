@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -22,7 +22,9 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 const MyPost = ({ match }) => {
   // const USER = useSelector((state) => state.userState);
   const MYPOST = useSelector((state) => state.myPostState);
-  
+
+  const modalRef = useRef(null);
+
   const [USER, setUSER] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -68,11 +70,25 @@ const MyPost = ({ match }) => {
     dispatch(getMyPost(match ? match.params.username : ""));
   };
 
+  function handleClickOutside(event) {
+    if (modalRef?.current && !modalRef?.current?.contains?.(event.target)) {
+      setShowModal(false);
+    }
+  }
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("user"));
     setUSER(data);
     dispatch(getMyPost(match ? match.params.username : ""));
   }, [match, dispatch]);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
 
   return (
     <div
@@ -81,18 +97,18 @@ const MyPost = ({ match }) => {
       }}
       className="relative"
     >
-      <div className="container mx-auto px-40">
+      <div className="container px-40 mx-auto">
         <div className="flex justify-center">
           <div className="w-2/5">
             <div
               className="p-5 mt-5 mr-5 rounded-lg"
               style={{ backgroundColor: "#242526" }}
             >
-              <h2 className="text-white font-bold text-xl mb-3">Intro</h2>
-              <div className="flex justify-between items-center mb-5">
+              <h2 className="mb-3 text-xl font-bold text-white">Intro</h2>
+              <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
                   <LanguageIcon style={{ color: "white" }}></LanguageIcon>
-                  <p className="text-white ml-1">Situs : </p>
+                  <p className="ml-1 text-white">Situs : </p>
                 </div>
                 <a
                   href="https://fabianstek.blogspot.com/"
@@ -103,37 +119,37 @@ const MyPost = ({ match }) => {
                   https://fabianstek.blogspot.com/
                 </a>
               </div>
-              <div className="flex justify-between items-center mb-5">
+              <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
                   <PhoneIcon style={{ color: "white" }}></PhoneIcon>
-                  <p className="text-white ml-1">Phone : </p>
+                  <p className="ml-1 text-white">Phone : </p>
                 </div>
                 <p className="text-white">089663191201</p>
               </div>
-              <div className="flex justify-between items-center mb-5">
+              <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
                   <SupervisorAccountIcon
                     style={{ color: "white" }}
                   ></SupervisorAccountIcon>
-                  <p className="text-white ml-1">Status : </p>
+                  <p className="ml-1 text-white">Status : </p>
                 </div>
                 <p className="text-white">Menikah</p>
               </div>
-              <div className="flex justify-between items-center mb-5">
+              <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
                   <SportsBasketballIcon
                     style={{ color: "white" }}
                   ></SportsBasketballIcon>
-                  <p className="text-white ml-1">Hobby : </p>
+                  <p className="ml-1 text-white">Hobby : </p>
                 </div>
                 <p className="text-white">Olahraga</p>
               </div>
-              <div className="flex justify-between items-center mb-5">
+              <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
                   <ImportContactsIcon
                     style={{ color: "white" }}
                   ></ImportContactsIcon>
-                  <p className="text-white ml-1">Alamat : </p>
+                  <p className="ml-1 text-white">Alamat : </p>
                 </div>
                 <p className="text-white">Garut</p>
               </div>
@@ -143,7 +159,7 @@ const MyPost = ({ match }) => {
             {match.params.username === USER?.username && (
               <WritePost showModalPost={showModalPost}></WritePost>
             )}
-            {MYPOST.length > 0 ?
+            {MYPOST.length > 0 ? (
               MYPOST.map((data, index) => {
                 return (
                   <PostCard
@@ -155,9 +171,17 @@ const MyPost = ({ match }) => {
                     handleDelete={handleDelete}
                   ></PostCard>
                 );
-              }) : <div className="mt-5"><h2 className="text-white text-xl font-bold text-center">Belum Ada Postingan</h2></div>}
+              })
+            ) : (
+              <div className="mt-5">
+                <h2 className="text-xl font-bold text-center text-white">
+                  Belum Ada Postingan
+                </h2>
+              </div>
+            )}
             {showModal && (
               <ModalPost
+                modalRef={modalRef}
                 showModalPost={showModalPost}
                 setShowModal={setShowModal}
                 postBody={postBody}

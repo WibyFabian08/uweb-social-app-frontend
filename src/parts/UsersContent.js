@@ -5,7 +5,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const UserContent = (data) => {
-  // const USER = useSelector((state) => state.userState);
   const [USER, setUSER] = useState({});
   const failed = (message) => toast.error(message);
   const success = (message) => toast.info(message);

@@ -116,7 +116,7 @@ const PostCard = ({
           </div>
           <div>
             <p className="text-sm text-gray-400">
-              {data ? data.likes.length : ""} Orang menyukai postingan
+              {data ? data.likes.length : ""} Orang menyukai postingang
             </p>
           </div>
         </div>

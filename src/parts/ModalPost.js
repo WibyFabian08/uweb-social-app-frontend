@@ -11,27 +11,30 @@ const ModalPost = ({
   imagePreview,
   setImagePreview,
   postBody,
+  modalRef
 }) => {
   return (
     <div
       className="absolute inset-0 z-10 transition-all duration-300"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
+      
     >
-      <div className="flex flex-col justify-center items-center h-screen">
+      <div className="flex flex-col items-center justify-center h-screen">
         <div
           className="w-1/3 opacity-100 rounded-xl"
           style={{ backgroundColor: "#242526" }}
+          ref={modalRef}
         >
           <div className="flex items-center p-2">
             <div style={{ flex: 2 }}></div>
             <div style={{ flex: 6 }}>
-              <h1 className="text-white text-2xl font-bold text-center">
+              <h1 className="text-2xl font-bold text-center text-white">
                 Buat Postingan
               </h1>
             </div>
             <div style={{ flex: 2 }}>
               <h1
-                className="text-white text-right text-3xl mr-2"
+                className="mr-2 text-3xl text-right text-white"
                 onClick={() => showModalPost()}
                 style={{ cursor: "pointer" }}
               >
@@ -50,18 +53,18 @@ const ModalPost = ({
             ></InputPost>
             {imagePreview && (
               <>
-                <h2 className="text-white my-3 w-full">Preview Image</h2>
+                <h2 className="w-full my-3 text-white">Preview Image</h2>
                 <div className="relative w-9/12 mx-auto">
                   <div
-                    className="absolute bg-black px-3 py-1 rounded-full opacity-30 right-0"
+                    className="absolute right-0 px-3 py-1 bg-black rounded-full opacity-30"
                     style={{ cursor: "pointer" }}
                     onClick={() => setImagePreview("")}
                   >
-                    <div className="text-white text-xl mb-1 mx-1">x</div>
+                    <div className="mx-1 mb-1 text-xl text-white">x</div>
                   </div>
                   <img
                     height={50}
-                    className="object-cover rounded-lg w-full"
+                    className="object-cover w-full rounded-lg"
                     src={imagePreview}
                     alt="preview"
                   />

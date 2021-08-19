@@ -55,7 +55,7 @@ const Navbar = ({ match }) => {
           >
             <Link to="/users">
               <PeopleAltIcon
-                style={{ color: "white" }}
+                style={{ color: match.path === "/users" ? "skyblue" : "white" }}
                 fontSize="large"
               ></PeopleAltIcon>
             </Link>
@@ -67,7 +67,12 @@ const Navbar = ({ match }) => {
             ].join(" ")}
           >
             <Link to="/message">
-              <SendIcon style={{ color: "white" }} fontSize="large"></SendIcon>
+              <SendIcon
+                style={{
+                  color: match.path === "/message" ? "skyblue" : "white",
+                }}
+                fontSize="large"
+              ></SendIcon>
             </Link>
           </div>
         </div>

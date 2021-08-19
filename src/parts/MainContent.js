@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -14,7 +14,9 @@ import WritePost from "./WritePost";
 
 const MainContent = () => {
   const POST = useSelector((state) => state.timeLineState);
-  
+
+  const modalRef = useRef(null);
+
   const [USER, setUSER] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsloading] = useState(false);
@@ -57,6 +59,15 @@ const MainContent = () => {
     setShowModal(!showModal);
   };
 
+  function handleClickOutside(event) {
+    if (
+      modalRef?.current &&
+      !modalRef?.current?.contains?.(event.target) 
+    ) {
+      setShowModal(false);
+    }
+  }
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("user"));
     setUSER(data);
@@ -66,9 +77,17 @@ const MainContent = () => {
     dispatch(getTimeLine(USER ? USER._id : ""));
   }, [dispatch, USER]);
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
+
   return (
     <div className="w-1/2 px-20 mb-20">
-      <div className="h-screen overflow-y-auto mb-20">
+      <div className="h-screen mb-20 overflow-y-auto">
         <WritePost showModalPost={showModalPost}></WritePost>
         {POST.length > 0 &&
           POST.map((data, index) => {
@@ -87,6 +106,7 @@ const MainContent = () => {
       </div>
       {showModal && (
         <ModalPost
+        modalRef={modalRef}
           showModalPost={showModalPost}
           setShowModal={setShowModal}
           postBody={postBody}
