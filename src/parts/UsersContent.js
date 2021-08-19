@@ -1,12 +1,12 @@
+import React, {useState, useEffect} from "react";
 import axios from "axios";
-import React from "react";
-import { useSelector } from "react-redux";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const UserContent = (data) => {
-  const USER = useSelector((state) => state.userState);
+  // const USER = useSelector((state) => state.userState);
+  const [USER, setUSER] = useState({});
   const failed = (message) => toast.error(message);
   const success = (message) => toast.info(message);
 
@@ -24,19 +24,24 @@ const UserContent = (data) => {
       });
   };
 
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("user"));
+    setUSER(data);
+  }, []);
+
   return (
-    <div className="h-screen overflow-y-auto w-1/2 px-5 mb-20 mt-5">
-      <h2 className="text-white text-xl font-bold ml-3 mb-5">All Users</h2>
+    <div className="w-1/2 h-screen px-5 mt-5 mb-20 overflow-y-auto">
+      <h2 className="mb-5 ml-3 text-xl font-bold text-white">All Users</h2>
       <div className="mb-32">
         <div className="flex flex-wrap items-center h-full">
           {data &&
             data.data.map((data, index) => {
               return (
                 <div className="w-1/2 px-2 mb-4" key={index}>
-                  <div className="w-full border border-solid border-gray-200 rounded-lg p-5">
+                  <div className="w-full p-5 border border-gray-200 border-solid rounded-lg">
                     <div
                       style={{ width: "100%", height: 200 }}
-                      className="rounded-lg overflow-hidden"
+                      className="overflow-hidden rounded-lg"
                     >
                       <img
                         src={
@@ -44,17 +49,17 @@ const UserContent = (data) => {
                             ? `http://localhost:3000/${data.profilePicture}`
                             : ""
                         }
-                        className="w-full h-full object-cover"
+                        className="object-cover w-full h-full"
                         alt="profile"
                       />
                     </div>
                     <div className="mt-2">
-                      <h2 className="text-white text-xl font-bold">
+                      <h2 className="text-xl font-bold text-white">
                         {data ? data?.username : "username"}
                       </h2>
                       <div className="flex justify-between mt-2">
                         <div
-                          className="bg-blue-500 hover:bg-blue-400 rounded-md text-white font-bold text-center text-sm px-2 py-1 w-full"
+                          className="w-full px-2 py-1 text-sm font-bold text-center text-white bg-blue-500 rounded-md hover:bg-blue-400"
                           style={{ cursor: "pointer" }}
                           onClick={() => handleFollow(data ? data?._id : "")}
                         >

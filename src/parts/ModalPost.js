@@ -51,12 +51,21 @@ const ModalPost = ({
             {imagePreview && (
               <>
                 <h2 className="text-white my-3 w-full">Preview Image</h2>
-                <img
-                  height={50}
-                  className="object-cover rounded-lg mx-auto w-1/2"
-                  src={imagePreview}
-                  alt="preview"
-                />
+                <div className="relative w-9/12 mx-auto">
+                  <div
+                    className="absolute bg-black px-3 py-1 rounded-full opacity-30 right-0"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setImagePreview("")}
+                  >
+                    <div className="text-white text-xl mb-1 mx-1">x</div>
+                  </div>
+                  <img
+                    height={50}
+                    className="object-cover rounded-lg w-full"
+                    src={imagePreview}
+                    alt="preview"
+                  />
+                </div>
               </>
             )}
             <InputFile

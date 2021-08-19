@@ -12,7 +12,7 @@ const WritePost = ({ showModalPost }) => {
 
   return (
     <div
-      className="input-post w-full mt-5 rounded-lg p-5 mb-5"
+      className="w-full p-5 mt-5 mb-5 rounded-lg input-post"
       style={{ backgroundColor: "#242526" }}
     >
       <div className="flex items-center">
@@ -22,11 +22,11 @@ const WritePost = ({ showModalPost }) => {
         >
           <img
             src={
-              USER && USER.profilePicture
+              USER && USER?.profilePicture
                 ? `http://localhost:3000/${USER.profilePicture}`
                 : ""
             }
-            className="w-full h-full object-cover"
+            className="object-cover w-full h-full"
             alt="profile"
           />
         </div>
@@ -34,14 +34,14 @@ const WritePost = ({ showModalPost }) => {
           type="text"
           readOnly
           onClick={() => showModalPost()}
-          className="rounded-full text-white w-full ml-3 border-none focus:outline-none px-4 py-2"
+          className="w-full px-4 py-2 ml-3 text-white border-none rounded-full focus:outline-none"
           style={{ backgroundColor: "#4a4a4a" }}
           placeholder="Apa yang Anda pikirkan?"
         />
       </div>
       <div
         style={{ border: "0.025px solid gray" }}
-        className="mt-3 w-full"
+        className="w-full mt-3"
       ></div>
       <InputFile></InputFile>
     </div>

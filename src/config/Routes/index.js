@@ -13,6 +13,7 @@ import MyFriend from "../../pages/MyFriend";
 import Login from "../../pages/Login";
 import Register from "../../pages/Register";
 import AllUser from "../../pages/AllUser";
+import Message from "../../pages/Message";
 
 function Routes() {
   const history = createBrowserHistory({
@@ -51,6 +52,7 @@ function Routes() {
         <Route exact path="/register" component={Register}></Route>
         <Route exact path="/" component={Home}></Route>
         <Route exact path="/users" component={AllUser}></Route>
+        <Route exact path="/message" component={Message}></Route>
       </Switch>
     </Router>
   );

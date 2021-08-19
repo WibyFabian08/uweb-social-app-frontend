@@ -23,7 +23,7 @@ const Navbar = ({ match }) => {
 
   return (
     <div
-      className="flex items-center px-5 w-full sticky top-0 z-10"
+      className="sticky top-0 z-10 flex items-center w-full px-5"
       style={{
         height: 60,
         backgroundColor: "#242526",
@@ -34,7 +34,7 @@ const Navbar = ({ match }) => {
         <NavBrand></NavBrand>
       </div>
       <div className="w-1/2 px-20">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div
             className={["w-1/6 flex justify-center py-3", getNavLink("/")].join(
               " "
@@ -63,18 +63,18 @@ const Navbar = ({ match }) => {
           <div
             className={[
               "w-1/6 flex justify-center py-3",
-              getNavLink("/videos"),
+              getNavLink("/message"),
             ].join(" ")}
           >
-            <Link to="/">
+            <Link to="/message">
               <SendIcon style={{ color: "white" }} fontSize="large"></SendIcon>
             </Link>
           </div>
         </div>
       </div>
       <div className="w-3/12 px-3">
-        <div className="flex justify-start items-center">
-          <div className="px-4 flex items-center">
+        <div className="flex items-center justify-start">
+          <div className="flex items-center px-4">
             <Link to={`/profile/${USER && USER.username}`}>
               <div
                 className="overflow-hidden rounded-full"

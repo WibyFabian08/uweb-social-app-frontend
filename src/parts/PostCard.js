@@ -30,10 +30,10 @@ const PostCard = ({
   if (!data) {
     return (
       <div
-        className="mb-5 w-full rounded-lg"
+        className="w-full mb-5 rounded-lg"
         style={{ backgroundColor: "#242526" }}
       >
-        <div className="flex justify-between items-center p-5">
+        <div className="flex items-center justify-between p-5">
           <h2 className="text-white">Belum Ada Postingan</h2>
         </div>
       </div>
@@ -41,10 +41,10 @@ const PostCard = ({
   }
   return (
     <div
-      className="mb-5 w-full rounded-lg mt-5"
+      className="w-full mt-5 mb-5 rounded-lg"
       style={{ backgroundColor: "#242526" }}
     >
-      <div className="flex justify-between items-center p-5 relative">
+      <div className="relative flex items-center justify-between p-5">
         <Link to={`profile/${user && user?.username}`}>
           <div className="flex items-center">
             <div
@@ -65,7 +65,7 @@ const PostCard = ({
               <h2 className="text-white">
                 {user ? user.username : "username"}
               </h2>
-              <p className="text-gray-400 text-sm">
+              <p className="text-sm text-gray-400">
                 {data ? format(data.createdAt) : ""}
               </p>
             </div>
@@ -78,7 +78,7 @@ const PostCard = ({
         ></MoreHorizTwoToneIcon>
         {ACTIVEUSER && ACTIVEUSER._id === data.userId && (
           <div
-            className="absolute z-30 right-14 -top-2 px-4 py-2 transition-all duration-300 ease-in-out"
+            className="absolute z-30 px-4 py-2 transition-all duration-300 ease-in-out right-14 -top-2"
             onClick={() => handleDelete(data)}
             style={{
               backgroundColor: "#4a4a4a",
@@ -95,27 +95,27 @@ const PostCard = ({
       </div>
       <div className="w-full">
         <div className="px-5">
-          <p className="text-white mb-2">{data ? data.body : "post body"}</p>
+          <p className="mb-2 text-white">{data ? data.body : "post body"}</p>
         </div>
         <img
           src={data ? `http://localhost:3000/${data.image}` : ""}
           alt="post"
-          className="w-full object-cover"
+          className="object-cover w-full"
         />
       </div>
       <div className="p-5">
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex items-center justify-between mb-2">
           <div>
             <ThumbUpAltIcon
               style={{ color: "white" }}
               fontSize="small"
             ></ThumbUpAltIcon>
-            <span className="text-gray-400 ml-2 mt-1">
+            <span className="mt-1 ml-2 text-gray-400">
               {data ? data.likes.length : ""}
             </span>
           </div>
           <div>
-            <p className="text-gray-400 text-sm">
+            <p className="text-sm text-gray-400">
               {data ? data.likes.length : ""} Orang menyukai postingan
             </p>
           </div>
@@ -123,29 +123,29 @@ const PostCard = ({
         <div style={{ border: "0.025px solid gray" }} className="w-full"></div>
         <div className="flex items-center justify-between mt-3">
           <div
-            className="w-1/3 flex justify-center"
+            className="flex justify-center w-1/3"
             style={{ cursor: "pointer" }}
             onClick={() => handleLike(data)}
           >
             <ThumbUpAltIcon
-              style={{ color: "white" }}
+              style={{ color: data?.likes.includes(ACTIVEUSER._id) ? 'skyblue' : "white" }}
               fontSize="small"
             ></ThumbUpAltIcon>
-            <span className="text-white ml-2">Suka</span>
+            <span className="ml-2 text-white">Suka</span>
           </div>
-          <div className="w-1/3 flex justify-center">
+          <div className="flex justify-center w-1/3">
             <ChatBubbleOutlineOutlinedIcon
               style={{ color: "white" }}
               fontSize="small"
             ></ChatBubbleOutlineOutlinedIcon>
-            <span className="text-white ml-2">Komentar</span>
+            <span className="ml-2 text-white">Komentar</span>
           </div>
-          <div className="w-1/3 flex justify-center">
+          <div className="flex justify-center w-1/3">
             <ReplyOutlinedIcon
               style={{ color: "white" }}
               fontSize="small"
             ></ReplyOutlinedIcon>
-            <span className="text-white ml-2">Bagikan</span>
+            <span className="ml-2 text-white">Bagikan</span>
           </div>
         </div>
       </div>

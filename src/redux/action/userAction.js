@@ -43,6 +43,7 @@ export const updateProfilePicture = (user, data, setUser) => (dispatch) => {
       },
     })
     .then((res) => {
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       dispatch({ type: "SET_USER", value: res.data.user });
       setUser(res.data.user);
     })
@@ -59,6 +60,7 @@ export const updateCoverPicture = (user, data, setUser) => (dispatch) => {
       },
     })
     .then((res) => {
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       dispatch({ type: "SET_USER", value: res.data.user });
       setUser(res.data.user);
     })
