@@ -15,6 +15,7 @@ const PostCard = ({
   handleDelete,
   showDelete,
   setShowDelete,
+  deleteRef,
 }) => {
   const [user, setUser] = useState(null);
   const [ACTIVEUSER, setACTIVEUSER] = useState({});
@@ -78,6 +79,7 @@ const PostCard = ({
         ></MoreHorizTwoToneIcon>
         {ACTIVEUSER && ACTIVEUSER._id === data.userId && (
           <div
+            ref={deleteRef}
             className="absolute z-30 px-4 py-2 transition-all duration-300 ease-in-out right-14 -top-2"
             onClick={() => handleDelete(data)}
             style={{
@@ -128,7 +130,11 @@ const PostCard = ({
             onClick={() => handleLike(data)}
           >
             <ThumbUpAltIcon
-              style={{ color: data?.likes.includes(ACTIVEUSER._id) ? 'skyblue' : "white" }}
+              style={{
+                color: data?.likes.includes(ACTIVEUSER._id)
+                  ? "skyblue"
+                  : "white",
+              }}
               fontSize="small"
             ></ThumbUpAltIcon>
             <span className="ml-2 text-white">Suka</span>

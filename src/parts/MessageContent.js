@@ -1,26 +1,9 @@
 import React, { useState } from "react";
 import Conversation from "../parts/Conversation";
 
-const MessageContent = () => {
-  const data = [
-    {
-      owner: "mine",
-      text: "haloo apakabar?",
-    },
-    {
-      owner: "other",
-      text: "kabar baik, bagaimana dengan anda?",
-    },
-    {
-      owner: "mine",
-      text: "alhamdulillah baik",
-    },
-    {
-      owner: "other",
-      text: "baik kalau begitu",
-    },
-  ];
+const MessageContent = ({ messages, ACTIVEUSER, members }) => {
   const [body, setBody] = useState("");
+
   return (
     <div className="w-1/2 mb-5 text-white">
       <div className="container flex flex-col">
@@ -28,16 +11,22 @@ const MessageContent = () => {
           style={{ height: "calc(100vh - 150px)" }}
           className="w-4/5 p-5 mx-auto overflow-y-auto rounded-lg"
         >
-          {data &&
-            data.map((data, index) => {
+          {messages.length > 0 ? (
+            messages.map((data, index) => {
               return (
                 <Conversation
                   data={data}
-                  mine={data.owner === "mine" && true}
+                  members={members}
+                  mine={data.senderId === ACTIVEUSER?._id && true}
                   key={index}
                 ></Conversation>
               );
-            })}
+            })
+          ) : (
+            <div className="flex flex-col justify-center h-full text-3xl font-bold text-center text-gray-300">
+              Type to start conversation
+            </div>
+          )}
         </div>
         <div className="flex items-center w-full px-16 mt-5">
           <div className="w-full px-1">

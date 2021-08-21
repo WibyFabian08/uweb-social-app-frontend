@@ -16,6 +16,7 @@ const MainContent = () => {
   const POST = useSelector((state) => state.timeLineState);
 
   const modalRef = useRef(null);
+  const deleteRef = useRef(null);
 
   const [USER, setUSER] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -59,12 +60,15 @@ const MainContent = () => {
     setShowModal(!showModal);
   };
 
-  function handleClickOutside(event) {
-    if (
-      modalRef?.current &&
-      !modalRef?.current?.contains?.(event.target) 
-    ) {
+  function handleClickOutsideModal(event) {
+    if (modalRef?.current && !modalRef?.current?.contains?.(event.target)) {
       setShowModal(false);
+    }
+  }
+
+  function handleClickOutsideDelete(event) {
+    if (deleteRef?.current && !deleteRef?.current?.contains?.(event.target)) {
+      setShowDelete(false);
     }
   }
 
@@ -78,10 +82,12 @@ const MainContent = () => {
   }, [dispatch, USER]);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutsideModal);
+    document.addEventListener("mousedown", handleClickOutsideDelete);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutsideModal);
+      document.removeEventListener("mousedown", handleClickOutsideDelete);
     };
   });
 
@@ -93,6 +99,7 @@ const MainContent = () => {
           POST.map((data, index) => {
             return (
               <PostCard
+                deleteRef={deleteRef}
                 key={index}
                 data={data}
                 handleLike={handleLike}
@@ -106,7 +113,7 @@ const MainContent = () => {
       </div>
       {showModal && (
         <ModalPost
-        modalRef={modalRef}
+          modalRef={modalRef}
           showModalPost={showModalPost}
           setShowModal={setShowModal}
           postBody={postBody}

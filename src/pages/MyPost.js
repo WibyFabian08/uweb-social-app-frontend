@@ -20,10 +20,10 @@ import SportsBasketballIcon from "@material-ui/icons/SportsBasketball";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 
 const MyPost = ({ match }) => {
-  // const USER = useSelector((state) => state.userState);
   const MYPOST = useSelector((state) => state.myPostState);
 
   const modalRef = useRef(null);
+  const deleteRef = useRef(null);
 
   const [USER, setUSER] = useState({});
   const [isLoading, setIsloading] = useState(false);
@@ -70,7 +70,13 @@ const MyPost = ({ match }) => {
     dispatch(getMyPost(match ? match.params.username : ""));
   };
 
-  function handleClickOutside(event) {
+  function handleClickOutsideDelete(event) {
+    if (deleteRef?.current && !deleteRef?.current?.contains?.(event.target)) {
+      setShowDelete(false);
+    }
+  }
+
+  function handleClickOutsideModal(event) {
     if (modalRef?.current && !modalRef?.current?.contains?.(event.target)) {
       setShowModal(false);
     }
@@ -83,10 +89,12 @@ const MyPost = ({ match }) => {
   }, [match, dispatch]);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutsideModal);
+    document.addEventListener("mousedown", handleClickOutsideDelete);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutsideModal);
+      document.removeEventListener("mousedown", handleClickOutsideDelete);
     };
   });
 
@@ -163,6 +171,7 @@ const MyPost = ({ match }) => {
               MYPOST.map((data, index) => {
                 return (
                   <PostCard
+                    deleteRef={deleteRef}
                     key={index}
                     data={data}
                     handleLike={handleLike}
