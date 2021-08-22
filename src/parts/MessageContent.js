@@ -1,8 +1,20 @@
-import React, { useState } from "react";
+import React, { useRef, useEffect } from "react";
 import Conversation from "../parts/Conversation";
 
-const MessageContent = ({ messages, ACTIVEUSER, members }) => {
-  const [body, setBody] = useState("");
+const MessageContent = ({
+  messages,
+  ACTIVEUSER,
+  members,
+  value,
+  onChange,
+  onClick,
+  newMessage,
+}) => {
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className="w-1/2 mb-5 text-white">
@@ -15,10 +27,11 @@ const MessageContent = ({ messages, ACTIVEUSER, members }) => {
             messages.map((data, index) => {
               return (
                 <Conversation
+                  scrollRef={scrollRef}
+                  key={index}
                   data={data}
                   members={members}
                   mine={data.senderId === ACTIVEUSER?._id && true}
-                  key={index}
                 ></Conversation>
               );
             })
@@ -31,16 +44,20 @@ const MessageContent = ({ messages, ACTIVEUSER, members }) => {
         <div className="flex items-center w-full px-16 mt-5">
           <div className="w-full px-1">
             <textarea
-              onChange={(e) => setBody(e.target.value)}
+              onChange={onChange}
+              value={value}
               name="message"
               className="w-full px-4 py-2 text-gray-600 placeholder-gray-600 rounded-lg focus:outline-none"
               placeholder="Type here..."
               rows="2"
             ></textarea>
           </div>
-          {body.length > 0 && (
+          {value.length > 0 && (
             <div className="w-1/5 px-2">
-              <button className="px-6 py-2 bg-green-500 rounded-lg">
+              <button
+                className="px-6 py-2 bg-green-500 rounded-lg"
+                onClick={onClick}
+              >
                 Send
               </button>
             </div>

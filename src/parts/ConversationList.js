@@ -25,7 +25,15 @@ const ConversationList = ({ data, ACTIVEUSER }) => {
         className="overflow-hidden bg-white rounded-full"
         style={{ width: 40, height: 40 }}
       >
-        <img src={conversationList ? `http://localhost:3000/${conversationList?.profilePicture}` : ''} className="object-cover w-full h-full" alt="profile" />
+        <img
+          src={
+            conversationList
+              ? `http://localhost:3000/${conversationList?.profilePicture}`
+              : ""
+          }
+          className="object-cover w-full h-full"
+          alt="profile"
+        />
       </div>
       <h2 className="text-white font-bold ml-2 truncate ...">
         {conversationList ? conversationList?.username : "username"}

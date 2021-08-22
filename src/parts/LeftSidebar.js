@@ -26,12 +26,12 @@ const LeftSidebar = () => {
   }, []);
 
   return (
-    <div className="w-3/12 sticky top-0 px-5">
-      <div className="sidebar-left flex flex-col h-screen overflow-y-auto">
+    <div className="sticky top-0 w-3/12 px-5">
+      <div className="flex flex-col h-screen overflow-y-auto sidebar-left">
         <Link to={`/profile/${USER && USER?.username}`}>
           <div className="flex items-center mt-5">
             <div
-              className="overflow-hidden rounded-full bg-white"
+              className="overflow-hidden bg-white rounded-full"
               style={{ width: 40, height: 40 }}
             >
               <img
@@ -40,7 +40,7 @@ const LeftSidebar = () => {
                     ? `http://localhost:3000/${USER && USER?.profilePicture}`
                     : ""
                 }
-                className="w-full h-full object-cover"
+                className="object-cover w-full h-full"
                 alt="profile"
               />
             </div>
