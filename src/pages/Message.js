@@ -67,6 +67,27 @@ const Message = () => {
       });
   };
 
+  const creaetConversation = (friendId) => {
+    axios
+      .post("http://localhost:3000/conversations", {
+        senderId: ACTIVEUSER._id,
+        receiverId: friendId,
+      })
+      .then((res) => {
+        axios
+          .get(`http://localhost:3000/conversations/${ACTIVEUSER._id}`)
+          .then((res) => {
+            setConversation(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const kirim = () => {
     const friendId = currentConversation?.members.find(
       (member) => member !== ACTIVEUSER._id
@@ -181,6 +202,7 @@ const Message = () => {
                     <OnlineFriendList
                       data={data}
                       key={index}
+                      creaetConversation={creaetConversation}
                     ></OnlineFriendList>
                   );
                 })}
