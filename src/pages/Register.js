@@ -39,11 +39,11 @@ const Register = () => {
   };
   return (
     <div className="h-screen" style={{ backgroundColor: "#edf0f5" }}>
-      <div className="container px-40 mx-auto h-full">
+      <div className="container h-full px-40 mx-auto">
         <div className="flex items-center justify-between h-full">
           <div className="w-3/5">
-            <h2 className="text-blue-500 text-6xl font-bold">facebook</h2>
-            <p className="text-black text-3xl mt-3">
+            <h2 className="text-6xl font-bold text-blue-500">facebook</h2>
+            <p className="mt-3 text-3xl text-black">
               Facebook membantu Anda terhubung <br /> dan berbagi dengan
               orang-orang dalam <br /> kehidupan Anda.
             </p>
