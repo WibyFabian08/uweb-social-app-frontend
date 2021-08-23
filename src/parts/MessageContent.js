@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Conversation from "../parts/Conversation";
 
 const MessageContent = ({
@@ -8,9 +9,9 @@ const MessageContent = ({
   value,
   onChange,
   onClick,
-  newMessage,
 }) => {
   const scrollRef = useRef();
+  const THEME = useSelector((state) => state.themeState);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -36,7 +37,7 @@ const MessageContent = ({
               );
             })
           ) : (
-            <div className="flex flex-col justify-center h-full text-3xl font-bold text-center text-gray-300">
+            <div className="flex flex-col justify-center h-full text-3xl font-bold text-center" style={{color: THEME ? 'gray' : 'lightgray'}}>
               Type to start conversation
             </div>
           )}

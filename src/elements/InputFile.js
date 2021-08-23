@@ -1,9 +1,11 @@
 import React, { useRef } from "react";
 
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+import { useSelector } from "react-redux";
 
 const InputFile = ({ onChange, setImagePreview }) => {
   const uploadImage = useRef(null);
+  const THEME = useSelector((state) => state.themeState);
 
   const getFile = (e) => {
     setImagePreview(URL.createObjectURL(e.target.files[0]));
@@ -21,10 +23,10 @@ const InputFile = ({ onChange, setImagePreview }) => {
       onClick={() => uploadImage.current.click()}
     >
       <VideoLibraryIcon
-        style={{ color: "white" }}
+        style={{color: THEME ? '#4267b2' : "white"}}
         fontSize="large"
       ></VideoLibraryIcon>
-      <h2 className="text-white ml-2">Add Image</h2>
+      <h2 className="ml-2 font-bold" style={{color: THEME ? 'black' : "white"}}>Add Image</h2>
       <input
         type="file"
         name="image"

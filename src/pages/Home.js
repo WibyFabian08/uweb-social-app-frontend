@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import LeftSidebar from "../parts/LeftSidebar";
@@ -7,6 +8,7 @@ import Navbar from "../parts/Navbar";
 import RightSidebar from "../parts/RightSidebar";
 
 const Home = () => {
+  const THEME = useSelector((state) => state.themeState);
   const history = useHistory();
   useEffect(() => {
     let USER = JSON.parse(localStorage.getItem("user"));
@@ -17,9 +19,9 @@ const Home = () => {
   }, [history]);
   return (
     <div
-      className="overflow-hidden"
+      className="overflow-hidden transition-all duration-300 ease-in-out"
       style={{
-        backgroundColor: "#1c1e21",
+        backgroundColor: THEME ? "#edf0f5" : "#1c1e21",
         height: "100vh",
       }}
     >

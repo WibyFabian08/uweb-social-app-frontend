@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Button from "../elements/Button";
 import InputFile from "../elements/InputFile";
 import InputPost from "../elements/InputPost";
@@ -11,24 +12,27 @@ const ModalPost = ({
   imagePreview,
   setImagePreview,
   postBody,
-  modalRef
+  modalRef,
 }) => {
+  const THEME = useSelector((state) => state.themeState);
   return (
     <div
       className="absolute inset-0 z-10 transition-all duration-300"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
-      
     >
       <div className="flex flex-col items-center justify-center h-screen">
         <div
           className="w-1/3 opacity-100 rounded-xl"
-          style={{ backgroundColor: "#242526" }}
+          style={{ backgroundColor: THEME ? "#edf0f5" : "#242526" }}
           ref={modalRef}
         >
           <div className="flex items-center p-2">
             <div style={{ flex: 2 }}></div>
             <div style={{ flex: 6 }}>
-              <h1 className="text-2xl font-bold text-center text-white">
+              <h1
+                className="text-2xl font-bold text-center text-white"
+                style={{ color: THEME ? "black" : "white" }}
+              >
                 Buat Postingan
               </h1>
             </div>
@@ -36,7 +40,7 @@ const ModalPost = ({
               <h1
                 className="mr-2 text-3xl text-right text-white"
                 onClick={() => showModalPost()}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", color: THEME ? "black" : "white" }}
               >
                 x
               </h1>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import LeftSidebar from "../parts/LeftSidebar";
 import Navbar from "../parts/Navbar";
@@ -10,6 +10,7 @@ import { getUsers } from "../redux/action/userAction";
 
 const AllUser = () => {
   const [users, setUsers] = useState([]);
+  const THEME = useSelector((state) => state.themeState);
 
   const dispatch = useDispatch();
 
@@ -19,9 +20,9 @@ const AllUser = () => {
 
   return (
     <div
-      className="overflow-hidden"
+      className="overflow-hidden transition-all duration-300 ease-in-out"
       style={{
-        backgroundColor: "#1c1e21",
+        backgroundColor: THEME ? "#edf0f5" : "#1c1e21",
         height: "100vh",
       }}
     >

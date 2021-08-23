@@ -9,43 +9,43 @@ import StoreTwoToneIcon from '@material-ui/icons/StoreTwoTone';
 const leftSidebar = [
     {
         id: 1,
-        icon: <PeopleAltIcon fontSize="large" style={{color: 'white'}}></PeopleAltIcon>,
+        icon: <PeopleAltIcon fontSize="large"></PeopleAltIcon>,
         href: '/users',
         desc: 'User'
     },
     {
         id: 2,
-        icon: <VideoLibraryIcon fontSize="large" style={{color: 'white'}}></VideoLibraryIcon>,
+        icon: <VideoLibraryIcon fontSize="large"></VideoLibraryIcon>,
         href: '#',
         desc: 'Watch'
     },
     {
         id: 3,
-        icon: <CalendarTodayIcon fontSize="large" style={{color: 'white'}}></CalendarTodayIcon>,
+        icon: <CalendarTodayIcon fontSize="large"></CalendarTodayIcon>,
         href: '#',
         desc: 'Acara'
     },
     {
         id: 4,
-        icon: <AccessTimeIcon fontSize="large" style={{color: 'white'}}></AccessTimeIcon>,
+        icon: <AccessTimeIcon fontSize="large"></AccessTimeIcon>,
         href: '#',
         desc: 'Kenangan'
     },
     {
         id: 5,
-        icon: <BookmarkIcon fontSize="large" style={{color: 'white'}}></BookmarkIcon>,
+        icon: <BookmarkIcon fontSize="large"></BookmarkIcon>,
         href: '#',
         desc: 'Tersimpan'
     },
     {
         id: 6,
-        icon: <GroupAddTwoToneIcon fontSize="large" style={{color: 'white'}}></GroupAddTwoToneIcon>,
+        icon: <GroupAddTwoToneIcon fontSize="large"></GroupAddTwoToneIcon>,
         href: '#',
         desc: 'Grup'
     },
     {
         id: 7,
-        icon: <StoreTwoToneIcon fontSize="large" style={{color: 'white'}}></StoreTwoToneIcon>,
+        icon: <StoreTwoToneIcon fontSize="large"></StoreTwoToneIcon>,
         href: '#',
         desc: 'Marketplace'
     },

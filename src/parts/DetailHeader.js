@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   follow,
@@ -16,6 +16,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import MoreHorizTwoToneIcon from "@material-ui/icons/MoreHorizTwoTone";
 
 const DetailHeader = ({ match }) => {
+  const THEME = useSelector((state) => state.themeState);
   const [ACTIVEUSER, setACTIVEUSER] = useState({});
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -75,11 +76,14 @@ const DetailHeader = ({ match }) => {
   }
 
   return (
-    <div style={{ backgroundColor: "#4a4a4a" }}>
-      <div className="container mx-auto px-40">
-        <div className="profile-header relative">
+    <div
+      style={{ backgroundColor: THEME ? "#edf0f5" : "#4a4a4a" }}
+      className="transition-all duration-300 ease-in-out"
+    >
+      <div className="container px-40 mx-auto">
+        <div className="relative profile-header">
           <div
-            className="cover-image relative rounded-b-lg bg-white w-full"
+            className="relative w-full bg-white rounded-b-lg cover-image"
             style={{
               height: 370,
               backgroundImage: `url(http://localhost:3000/${
@@ -90,7 +94,7 @@ const DetailHeader = ({ match }) => {
           >
             {ACTIVEUSER && ACTIVEUSER?._id === user._id && (
               <div
-                className="absolute bg-white right-10 bottom-5 px-4 py-2 rounded-md flex items-center"
+                className="absolute flex items-center px-4 py-2 bg-white rounded-md right-10 bottom-5"
                 style={{ cursor: "pointer" }}
                 onClick={() => coverRef.current.click()}
               >
@@ -102,17 +106,17 @@ const DetailHeader = ({ match }) => {
                   className="hidden"
                   ref={coverRef}
                 />
-                <p className="font-semibold ml-2">Edit Foto Sampul</p>
+                <p className="ml-2 font-semibold">Edit Foto Sampul</p>
               </div>
             )}
           </div>
-          <div className="profile-info container mx-auto px-10 -mt-5 relative">
-            <div className="flex justify-between items-center">
+          <div className="container relative px-10 mx-auto -mt-5 profile-info">
+            <div className="flex items-center justify-between">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center">
                   <div className="relative">
                     <div
-                      className="overflow-hidden rounded-full bg-white"
+                      className="overflow-hidden bg-white rounded-full"
                       style={{ width: 120, height: 120 }}
                     >
                       <img
@@ -127,7 +131,7 @@ const DetailHeader = ({ match }) => {
                     </div>
                     {ACTIVEUSER._id === user._id && (
                       <div
-                        className="absolute bottom-0 right-0 bg-gray-700 rounded-full p-1"
+                        className="absolute bottom-0 right-0 p-1 bg-gray-700 rounded-full"
                         style={{ cursor: "pointer" }}
                         onClick={() => inputRef.current.click()}
                       >
@@ -144,21 +148,21 @@ const DetailHeader = ({ match }) => {
                       </div>
                     )}
                   </div>
-                  <div className="ml-3 flex flex-col justify-end h-full">
-                    <h2 className="text-white text-2xl font-bold">
+                  <div className="flex flex-col justify-end h-full ml-3">
+                    <h2 className="text-2xl font-bold" style={{color: THEME ? 'black' : 'white'}}>
                       {user && user.username}
                     </h2>
-                    <p className="text-white font-bold">
+                    <p className="font-bold" style={{color: THEME ? 'black' : 'white'}}>
                       {user && user.followers && user.followers.length} Pengikut
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end items-center h-full w-full">
+              <div className="flex items-center justify-end w-full h-full">
                 {user._id !== ACTIVEUSER._id &&
                   (user && !user?.followers?.includes(ACTIVEUSER._id) ? (
                     <button
-                      className="px-4 py-2 bg-blue-500 hover:bg-blue-400 rounded-md text-white font-bold ml-auto"
+                      className="px-4 py-2 ml-auto font-bold text-white bg-blue-500 rounded-md hover:bg-blue-400"
                       style={{ cursor: "pointer" }}
                       onClick={() => handleFollow(user._id)}
                     >
@@ -166,7 +170,7 @@ const DetailHeader = ({ match }) => {
                     </button>
                   ) : (
                     <button
-                      className="px-4 py-2 bg-blue-500 hover:bg-blue-400 rounded-md text-white font-bold ml-auto"
+                      className="px-4 py-2 ml-auto font-bold text-white bg-blue-500 rounded-md hover:bg-blue-400"
                       style={{ cursor: "pointer" }}
                       onClick={() => handleUnFollow(user._id)}
                     >
@@ -177,20 +181,20 @@ const DetailHeader = ({ match }) => {
                   <>
                     {" "}
                     <div
-                      className="bg-blue-500 hover:bg-blue-400 flex items-center px-4 py-2 rounded-md mx-2"
+                      className="flex items-center px-4 py-2 mx-2 bg-blue-500 rounded-md hover:bg-blue-400"
                       style={{ cursor: "pointer" }}
                       onClick={() => alert("ok")}
                     >
                       <AddCircleIcon style={{ color: "white" }}></AddCircleIcon>
-                      <p className="text-white ml-1">Tambah Cerita</p>
+                      <p className="ml-1 text-white">Tambah Cerita</p>
                     </div>
                     <div
-                      className="bg-gray-600 hover:bg-gray-500 flex items-center px-6 py-2 rounded-md"
+                      className="flex items-center px-6 py-2 bg-gray-600 rounded-md hover:bg-gray-500"
                       style={{ cursor: "pointer" }}
                       onClick={() => alert("ok")}
                     >
                       <CreateIcon style={{ color: "white" }}></CreateIcon>
-                      <p className="text-white ml-1">Edit Profile</p>
+                      <p className="ml-1 text-white">Edit Profile</p>
                     </div>
                   </>
                 )}
@@ -200,7 +204,7 @@ const DetailHeader = ({ match }) => {
         </div>
         <div
           style={{ border: "0.025px solid gray" }}
-          className="w-full mt-5 px-10"
+          className="w-full px-10 mt-5"
         ></div>
         <div className="flex items-center justify-between">
           <div className="flex items-center">

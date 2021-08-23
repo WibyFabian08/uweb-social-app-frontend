@@ -6,8 +6,10 @@ import ConversationList from "../parts/ConversationList";
 import MessageContent from "../parts/MessageContent";
 import Navbar from "../parts/Navbar";
 import OnlineFriendList from "../parts/OnlineFriendList";
+import { useSelector } from "react-redux";
 
 const Message = () => {
+  const THEME = useSelector((state) => state.themeState);
   const socket = useRef();
 
   const [ACTIVEUSER, setACTIVEUSER] = useState({});
@@ -151,16 +153,16 @@ const Message = () => {
         <Navbar></Navbar>
       </div>
       <div
-        className="overflow-hidden"
+        className="overflow-hidden transition-all duration-300 ease-in-out"
         style={{
-          backgroundColor: "#1c1e21",
+          backgroundColor: THEME ? "#edf0f5" : "#1c1e21",
           height: "100vh",
         }}
       >
         <div className="relative flex">
           <div className="sticky top-0 w-3/12 px-5">
             <div className="flex flex-col h-screen overflow-y-auto sidebar-left">
-              <h2 className="mt-5 font-bold text-white text-md">List Chat</h2>
+              <h2 className="mt-5 font-bold text-md" style={{color: THEME ? 'black' : 'white'}}>List Chat</h2>
               {conversation?.conversation &&
                 conversation.conversation.map((data, index) => {
                   const friendId = data.members.find(
@@ -193,7 +195,7 @@ const Message = () => {
 
           <div className="sticky top-0 w-3/12 px-5">
             <div className="flex flex-col h-screen overflow-y-auto sidebar-left">
-              <h2 className="mt-5 font-bold text-white text-md">
+              <h2 className="mt-5 font-bold text-white text-md" style={{color: THEME ? 'black' : 'white'}}>
                 Online Friends
               </h2>
               {onlineUser &&

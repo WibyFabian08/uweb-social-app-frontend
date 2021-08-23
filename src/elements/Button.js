@@ -6,7 +6,7 @@ const Button = ({ type, label, path, onClick }) => {
   if (type === "blue") {
     return (
       <button
-        className="text-white font-bold text-xl bg-blue-600 hover:bg-blue-500 w-full rounded-md py-3"
+        className="w-full py-3 text-xl font-bold text-white bg-blue-600 rounded-md hover:bg-blue-500"
         onClick={onClick}
       >
         {label}
@@ -17,7 +17,7 @@ const Button = ({ type, label, path, onClick }) => {
   if (type === "green") {
     return (
       <button
-        className="text-white font-bold text-xl w-full rounded-md py-3"
+        className="w-full py-3 text-xl font-bold text-white rounded-md"
         style={{ backgroundColor: "#42b72a" }}
         onClick={() => history.push(path)}
       >
@@ -28,7 +28,7 @@ const Button = ({ type, label, path, onClick }) => {
 
   if (type === "forgetPassword") {
     return (
-      <a href="/" className="mx-auto text-blue-400 hover:underline text-sm">
+      <a href="/" className="mx-auto text-sm text-blue-400 hover:underline">
         Lupa Kata Sandi?
       </a>
     );
@@ -37,7 +37,7 @@ const Button = ({ type, label, path, onClick }) => {
   if (type === "post") {
     return (
       <button
-        className="w-full bg-blue-500 hover:bg-blue-400 text-white rounded-lg px-4 py-2 mt-2"
+        className="w-full px-4 py-2 mt-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-400"
         onClick={onClick}
       >
         {label}
@@ -47,7 +47,7 @@ const Button = ({ type, label, path, onClick }) => {
 
   return (
     <button
-      className="text-white font-bold text-xl bg-blue-600 hover:bg-blue-500 w-full rounded-md py-3"
+      className="w-full py-3 text-xl font-bold text-white bg-blue-600 rounded-md hover:bg-blue-500"
       onClick={onClick}
     >
       {label}

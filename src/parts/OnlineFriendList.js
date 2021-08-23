@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const OnlineFriendList = ({ data, creaetConversation }) => {
+  const THEME = useSelector((state) => state.themeState);
   const [onlineUser, setOnlineUser] = useState(null);
   useEffect(() => {
     axios
@@ -40,7 +42,7 @@ const OnlineFriendList = ({ data, creaetConversation }) => {
           />
         </div>
       </div>
-      <h2 className="text-white font-bold ml-2 truncate ...">
+      <h2 className="font-bold ml-2 truncate ..." style={{color: THEME ? 'black' : 'white'}}>
         {onlineUser ? onlineUser?.username : "username"}
       </h2>
     </div>

@@ -8,12 +8,15 @@ import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import SendIcon from "@material-ui/icons/Send";
 
 import profile from "../assets/images/profile.jpg";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = ({ match }) => {
   const [USER, setUSER] = useState({});
+  const THEME = useSelector((state) => state.themeState);
+  const dispatch = useDispatch();
 
   const getNavLink = (path) => {
-    return path === match.path ? "border-b-4 border-solid border-blue-200" : "";
+    return path === match.path ? "border-b-4 border-solid border-blue-500" : "";
   };
 
   useEffect(() => {
@@ -23,11 +26,11 @@ const Navbar = ({ match }) => {
 
   return (
     <div
-      className="sticky top-0 z-10 flex items-center w-full px-5"
+      className="sticky top-0 z-10 flex items-center w-full px-5 transition-all duration-300 ease-in-out"
       style={{
         height: 60,
-        backgroundColor: "#242526",
-        borderBottom: "0.5px solid gray",
+        backgroundColor: THEME ? "#edf0f5" : "#242526",
+        borderBottom: THEME ? "0.5px solid lightgray" : "0.5px solid gray",
       }}
     >
       <div className="w-3/12">
@@ -42,7 +45,13 @@ const Navbar = ({ match }) => {
           >
             <Link to="/">
               <HomeIcon
-                style={{ color: match.path === "/" ? "skyblue" : "white" }}
+                style={{
+                  color: THEME
+                    ? "#4267b2"
+                    : match.path === "/"
+                    ? "white"
+                    : "white",
+                }}
                 fontSize="large"
               ></HomeIcon>
             </Link>
@@ -55,7 +64,13 @@ const Navbar = ({ match }) => {
           >
             <Link to="/users">
               <PeopleAltIcon
-                style={{ color: match.path === "/users" ? "skyblue" : "white" }}
+                style={{
+                  color: THEME
+                    ? "#4267b2"
+                    : match.path === "/"
+                    ? "white"
+                    : "white",
+                }}
                 fontSize="large"
               ></PeopleAltIcon>
             </Link>
@@ -69,7 +84,11 @@ const Navbar = ({ match }) => {
             <Link to="/message">
               <SendIcon
                 style={{
-                  color: match.path === "/message" ? "skyblue" : "white",
+                  color: THEME
+                    ? "#4267b2"
+                    : match.path === "/"
+                    ? "white"
+                    : "white",
                 }}
                 fontSize="large"
               ></SendIcon>
@@ -97,9 +116,19 @@ const Navbar = ({ match }) => {
                 />
               </div>
             </Link>
-            <h2 className="text-white font-bold ml-2 truncate ...">
+            <h2
+              className="font-bold transition-all duration-300 ease-in-out ml-2 truncate ..."
+              style={{ color: THEME ? "black" : "white" }}
+            >
               {USER && USER.username}
             </h2>
+            <button
+              className="px-2 py-1 ml-10 text-xs font-bold text-white transition-all duration-300 ease-in-out rounded-lg focus:outline-none"
+              style={{backgroundColor: '#4267b2'}}
+              onClick={() => dispatch({ type: "SET_THEME", value: !THEME })}
+            >
+              {THEME ? "Dark Theme" : "Light Theme"}
+            </button>
           </div>
         </div>
       </div>

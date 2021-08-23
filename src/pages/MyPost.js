@@ -21,6 +21,7 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 
 const MyPost = ({ match }) => {
   const MYPOST = useSelector((state) => state.myPostState);
+  const THEME = useSelector((state) => state.themeState);
 
   const modalRef = useRef(null);
   const deleteRef = useRef(null);
@@ -101,22 +102,29 @@ const MyPost = ({ match }) => {
   return (
     <div
       style={{
-        backgroundColor: "#1c1e21",
+        backgroundColor: THEME ? "#edf0f5" : "#1c1e21",
       }}
-      className="relative"
+      className="relative transition-all duration-300 ease-in-out"
     >
       <div className="container px-40 mx-auto">
         <div className="flex justify-center">
           <div className="w-2/5">
             <div
-              className="p-5 mt-5 mr-5 rounded-lg"
-              style={{ backgroundColor: "#242526" }}
+              className="p-5 mt-5 mr-5 transition-all duration-300 ease-in-out rounded-lg"
+              style={{ backgroundColor: THEME ? "white" : "#242526" }}
             >
               <h2 className="mb-3 text-xl font-bold text-white">Intro</h2>
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
-                  <LanguageIcon style={{ color: "white" }}></LanguageIcon>
-                  <p className="ml-1 text-white">Situs : </p>
+                  <LanguageIcon
+                    style={{ color: THEME ? "#4267b2" : "white" }}
+                  ></LanguageIcon>
+                  <p
+                    className="ml-1"
+                    style={{ color: THEME ? "black" : "white" }}
+                  >
+                    Situs :{" "}
+                  </p>
                 </div>
                 <a
                   href="https://fabianstek.blogspot.com/"
@@ -129,37 +137,74 @@ const MyPost = ({ match }) => {
               </div>
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
-                  <PhoneIcon style={{ color: "white" }}></PhoneIcon>
-                  <p className="ml-1 text-white">Phone : </p>
+                  <PhoneIcon
+                    style={{ color: THEME ? "#4267b2" : "white" }}
+                  ></PhoneIcon>
+                  <p
+                    className="ml-1"
+                    style={{ color: THEME ? "black" : "white" }}
+                  >
+                    Phone :{" "}
+                  </p>
                 </div>
-                <p className="text-white">089663191201</p>
+                <p
+                  className="text-white"
+                  style={{ color: THEME ? "black" : "white" }}
+                >
+                  089663191201
+                </p>
               </div>
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
                   <SupervisorAccountIcon
-                    style={{ color: "white" }}
+                    style={{ color: THEME ? "#4267b2" : "white" }}
                   ></SupervisorAccountIcon>
-                  <p className="ml-1 text-white">Status : </p>
+                  <p
+                    className="ml-1"
+                    style={{ color: THEME ? "black" : "white" }}
+                  >
+                    Status :{" "}
+                  </p>
                 </div>
-                <p className="text-white">Menikah</p>
+                <p
+                  className="text-white"
+                  style={{ color: THEME ? "black" : "white" }}
+                >
+                  Menikah
+                </p>
               </div>
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
                   <SportsBasketballIcon
-                    style={{ color: "white" }}
+                    style={{ color: THEME ? "#4267b2" : "white" }}
                   ></SportsBasketballIcon>
-                  <p className="ml-1 text-white">Hobby : </p>
+                  <p
+                    className="ml-1"
+                    style={{ color: THEME ? "black" : "white" }}
+                  >
+                    Hobby :{" "}
+                  </p>
                 </div>
-                <p className="text-white">Olahraga</p>
+                <p
+                  className="text-white"
+                  style={{ color: THEME ? "black" : "white" }}
+                >
+                  Olahraga
+                </p>
               </div>
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center">
                   <ImportContactsIcon
-                    style={{ color: "white" }}
+                    style={{ color: THEME ? "#4267b2" : "white" }}
                   ></ImportContactsIcon>
-                  <p className="ml-1 text-white">Alamat : </p>
+                  <p
+                    className="ml-1"
+                    style={{ color: THEME ? "black" : "white" }}
+                  >
+                    Alamat :{" "}
+                  </p>
                 </div>
-                <p className="text-white">Garut</p>
+                <p style={{ color: THEME ? "black" : "white" }}>Garut</p>
               </div>
             </div>
           </div>

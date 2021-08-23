@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const ConversationList = ({ data, ACTIVEUSER }) => {
+  const THEME = useSelector((state) => state.themeState);
   const [conversationList, setConversationList] = useState(null);
   const friendId = data.members.find((member) => member !== ACTIVEUSER._id);
 
@@ -18,7 +20,7 @@ const ConversationList = ({ data, ACTIVEUSER }) => {
 
   return (
     <div
-      className="flex items-center px-5 py-2 mt-5 transition-all duration-300 rounded-lg hover:bg-gray-700"
+      className="flex items-center px-5 py-2 mt-5 transition-all duration-300 rounded-lg hover:bg-gray-400"
       style={{ cursor: "pointer" }}
     >
       <div
@@ -35,7 +37,10 @@ const ConversationList = ({ data, ACTIVEUSER }) => {
           alt="profile"
         />
       </div>
-      <h2 className="text-white font-bold ml-2 truncate ...">
+      <h2
+        className="font-bold ml-2 truncate ..."
+        style={{ color: THEME ? "black" : "white" }}
+      >
         {conversationList ? conversationList?.username : "username"}
       </h2>
     </div>
