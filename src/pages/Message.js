@@ -1,16 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { io } from "socket.io-client";
+import { useDispatch, useSelector } from "react-redux";
 
 import ConversationList from "../parts/ConversationList";
 import MessageContent from "../parts/MessageContent";
 import Navbar from "../parts/Navbar";
 import OnlineFriendList from "../parts/OnlineFriendList";
-import { useSelector } from "react-redux";
+
+import {
+  getConversationList,
+  getMessages,
+  getOneConversation,
+  newConversation,
+  sendMessage,
+} from "../redux/action/messageAction";
 
 const Message = () => {
   const THEME = useSelector((state) => state.themeState);
   const socket = useRef();
+  const dispatch = useDispatch();
 
   const [ACTIVEUSER, setACTIVEUSER] = useState({});
   const [text, setText] = useState("");
@@ -57,90 +65,44 @@ const Message = () => {
       sender: friendId,
       receiver: ACTIVEUSER._id,
     });
-    axios
-      .get(
-        `http://localhost:3000/conversations/find/${ACTIVEUSER._id}/${friendId}`
-      )
-      .then((res) => {
-        setCurrentConversation(res.data.conversation);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    dispatch(getOneConversation(ACTIVEUSER, friendId, setCurrentConversation));
   };
 
-  const creaetConversation = (friendId) => {
-    axios
-      .post("http://localhost:3000/conversations", {
-        senderId: ACTIVEUSER._id,
-        receiverId: friendId,
-      })
-      .then((res) => {
-        axios
-          .get(`http://localhost:3000/conversations/${ACTIVEUSER._id}`)
-          .then((res) => {
-            setConversation(res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const createConversation = (friendId) => {
+    dispatch(newConversation(ACTIVEUSER, friendId, setConversation));
   };
 
   const kirim = () => {
     const friendId = currentConversation?.members.find(
       (member) => member !== ACTIVEUSER._id
     );
+
     socket.current.emit("sendMessage", {
       senderId: ACTIVEUSER._id,
       receiverId: friendId,
       text: text,
     });
 
-    axios
-      .post("http://localhost:3000/messages", {
-        conversationId: currentConversation._id,
-        senderId: ACTIVEUSER._id,
-        text: text,
-      })
-      .then((res) => {
-        setMessages([...messages, res.data.message]);
-        setText("");
-      })
-      .catch((err) => {
-        console.log(err);
-        setText("");
-      });
+    dispatch(
+      sendMessage(
+        currentConversation,
+        ACTIVEUSER,
+        text,
+        messages,
+        setMessages,
+        setText
+      )
+    );
   };
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:3000/messages/${
-          currentConversation && currentConversation?._id
-        }`
-      )
-      .then((res) => {
-        setMessages(res.data.messages);
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      });
-  }, [currentConversation]);
+    dispatch(getMessages(currentConversation, setMessages));
+  }, [currentConversation, dispatch]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/conversations/${ACTIVEUSER._id}`)
-      .then((res) => {
-        setConversation(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [ACTIVEUSER._id]);
+    dispatch(getConversationList(ACTIVEUSER, setConversation));
+  }, [ACTIVEUSER, dispatch]);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("user"));
@@ -162,7 +124,12 @@ const Message = () => {
         <div className="relative flex">
           <div className="sticky top-0 w-3/12 px-5">
             <div className="flex flex-col h-screen overflow-y-auto sidebar-left">
-              <h2 className="mt-5 font-bold text-md" style={{color: THEME ? 'black' : 'white'}}>List Chat</h2>
+              <h2
+                className="mt-5 font-bold text-md"
+                style={{ color: THEME ? "black" : "white" }}
+              >
+                List Chat
+              </h2>
               {conversation?.conversation &&
                 conversation.conversation.map((data, index) => {
                   const friendId = data.members.find(
@@ -195,7 +162,10 @@ const Message = () => {
 
           <div className="sticky top-0 w-3/12 px-5">
             <div className="flex flex-col h-screen overflow-y-auto sidebar-left">
-              <h2 className="mt-5 font-bold text-white text-md" style={{color: THEME ? 'black' : 'white'}}>
+              <h2
+                className="mt-5 font-bold text-white text-md"
+                style={{ color: THEME ? "black" : "white" }}
+              >
                 Online Friends
               </h2>
               {onlineUser &&
@@ -204,7 +174,7 @@ const Message = () => {
                     <OnlineFriendList
                       data={data}
                       key={index}
-                      creaetConversation={creaetConversation}
+                      createConversation={createConversation}
                     ></OnlineFriendList>
                   );
                 })}

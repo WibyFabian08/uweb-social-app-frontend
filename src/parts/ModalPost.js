@@ -17,7 +17,7 @@ const ModalPost = ({
   const THEME = useSelector((state) => state.themeState);
   return (
     <div
-      className="absolute inset-0 z-10 transition-all duration-300"
+      className="absolute inset-0 z-10 transition-all duration-300 ease-in-out"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
     >
       <div className="flex flex-col items-center justify-center h-screen">

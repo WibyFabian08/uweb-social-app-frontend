@@ -77,7 +77,7 @@ const DetailHeader = ({ match }) => {
 
   return (
     <div
-      style={{ backgroundColor: THEME ? "#edf0f5" : "#4a4a4a" }}
+      style={{ backgroundColor: THEME ? "white" : "#4a4a4a" }}
       className="transition-all duration-300 ease-in-out"
     >
       <div className="container px-40 mx-auto">
@@ -149,10 +149,16 @@ const DetailHeader = ({ match }) => {
                     )}
                   </div>
                   <div className="flex flex-col justify-end h-full ml-3">
-                    <h2 className="text-2xl font-bold" style={{color: THEME ? 'black' : 'white'}}>
+                    <h2
+                      className="text-2xl font-bold"
+                      style={{ color: THEME ? "black" : "white" }}
+                    >
                       {user && user.username}
                     </h2>
-                    <p className="font-bold" style={{color: THEME ? 'black' : 'white'}}>
+                    <p
+                      className="font-bold"
+                      style={{ color: THEME ? "black" : "white" }}
+                    >
                       {user && user.followers && user.followers.length} Pengikut
                     </p>
                   </div>
@@ -215,10 +221,8 @@ const DetailHeader = ({ match }) => {
             >
               <Link to={`/profile/${user && user.username}`}>
                 <p
-                  className={[
-                    "font-bold",
-                    getNavTitle(`/profile/:username`),
-                  ].join(" ")}
+                  className="font-bold"
+                  style={{ color: THEME ? "black" : "white" }}
                 >
                   Postingan
                 </p>
@@ -232,10 +236,8 @@ const DetailHeader = ({ match }) => {
             >
               <Link to={`/profile/${user && user.username}/friends`}>
                 <p
-                  className={[
-                    "font-bold",
-                    getNavTitle(`/profile/:username/friends`),
-                  ].join(" ")}
+                  className="font-bold"
+                  style={{ color: THEME ? "black" : "white" }}
                 >
                   Teman
                 </p>
@@ -249,10 +251,8 @@ const DetailHeader = ({ match }) => {
             >
               <Link to={`/profile/${user && user.username}/images`}>
                 <p
-                  className={[
-                    "font-bold",
-                    getNavTitle(`/profile/:username/images`),
-                  ].join(" ")}
+                  className="font-bold"
+                  style={{ color: THEME ? "black" : "white" }}
                 >
                   Foto
                 </p>
@@ -261,7 +261,7 @@ const DetailHeader = ({ match }) => {
           </div>
           <div>
             <MoreHorizTwoToneIcon
-              style={{ color: "white" }}
+              style={{ color: THEME ? "black" : "white" }}
               fontSize="large"
             ></MoreHorizTwoToneIcon>
           </div>

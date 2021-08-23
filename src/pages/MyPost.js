@@ -228,7 +228,10 @@ const MyPost = ({ match }) => {
               })
             ) : (
               <div className="mt-5">
-                <h2 className="text-xl font-bold text-center text-white">
+                <h2
+                  className="text-xl font-bold text-center"
+                  style={{ color: THEME ? "black" : "white" }}
+                >
                   Belum Ada Postingan
                 </h2>
               </div>

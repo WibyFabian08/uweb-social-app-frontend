@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
 
 const UserContent = (data) => {
   const THEME = useSelector((state) => state.themeState);
@@ -50,20 +51,22 @@ const UserContent = (data) => {
                       backgroundColor: THEME ? "white" : "#1c1e21",
                     }}
                   >
-                    <div
-                      style={{ width: "100%", height: 200 }}
-                      className="overflow-hidden rounded-lg"
-                    >
-                      <img
-                        src={
-                          data
-                            ? `http://localhost:3000/${data.profilePicture}`
-                            : ""
-                        }
-                        className="object-cover w-full h-full"
-                        alt="profile"
-                      />
-                    </div>
+                    <Link to={`/profile/${data.username}`}>
+                      <div
+                        style={{ width: "100%", height: 200 }}
+                        className="overflow-hidden rounded-lg"
+                      >
+                        <img
+                          src={
+                            data
+                              ? `http://localhost:3000/${data.profilePicture}`
+                              : ""
+                          }
+                          className="object-cover w-full h-full"
+                          alt="profile"
+                        />
+                      </div>
+                    </Link>
                     <div className="mt-2">
                       <h2
                         className="text-xl font-bold"

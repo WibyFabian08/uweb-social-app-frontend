@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getOnlineFriends } from "../redux/action/messageAction";
 
-const OnlineFriendList = ({ data, creaetConversation }) => {
+const OnlineFriendList = ({ data, createConversation }) => {
   const THEME = useSelector((state) => state.themeState);
   const [onlineUser, setOnlineUser] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/users/${data}`)
-      .then((res) => {
-        setOnlineUser(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [data]);
+    dispatch(getOnlineFriends(data, setOnlineUser));
+  }, [data, dispatch]);
 
   return (
     <div
-      className="flex items-center mt-5"
-      onClick={() => creaetConversation(onlineUser?._id)}
+      className="flex items-center px-4 py-2 mt-5 transition-all duration-300 rounded-lg hover:bg-gray-400"
+      onClick={() => createConversation(onlineUser?._id)}
       style={{ cursor: "pointer" }}
     >
       <div className="relative">
@@ -42,7 +37,10 @@ const OnlineFriendList = ({ data, creaetConversation }) => {
           />
         </div>
       </div>
-      <h2 className="font-bold ml-2 truncate ..." style={{color: THEME ? 'black' : 'white'}}>
+      <h2
+        className="font-bold ml-2 truncate ..."
+        style={{ color: THEME ? "black" : "white" }}
+      >
         {onlineUser ? onlineUser?.username : "username"}
       </h2>
     </div>

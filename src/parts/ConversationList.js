@@ -1,22 +1,16 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getChatList } from "../redux/action/messageAction";
 
 const ConversationList = ({ data, ACTIVEUSER }) => {
   const THEME = useSelector((state) => state.themeState);
   const [conversationList, setConversationList] = useState(null);
+  const dispatch = useDispatch();
   const friendId = data.members.find((member) => member !== ACTIVEUSER._id);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/users/${friendId}`)
-      .then((res) => {
-        setConversationList(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [friendId]);
+    dispatch(getChatList(friendId, setConversationList));
+  }, [friendId, dispatch]);
 
   return (
     <div

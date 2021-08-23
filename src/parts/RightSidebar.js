@@ -53,25 +53,19 @@ const RightSidebar = () => {
             <div className="flex flex-col px-5" key={index}>
               <Link to={`/profile/${data ? data.username : ""}`}>
                 <div className="flex items-center mb-5">
-                  <div className="relative">
-                    <div
-                      style={{ height: 10, width: 10 }}
-                      className="absolute bottom-0 right-0 z-10 bg-green-500 rounded-full"
-                    ></div>
-                    <div
-                      className="overflow-hidden rounded-full"
-                      style={{ height: 30, width: 30 }}
-                    >
-                      <img
-                        src={
-                          data.profilePicture
-                            ? `http://localhost:3000/${data.profilePicture}`
-                            : ""
-                        }
-                        className="object-cover w-full h-full"
-                        alt="profile"
-                      />
-                    </div>
+                  <div
+                    className="overflow-hidden rounded-full"
+                    style={{ height: 30, width: 30 }}
+                  >
+                    <img
+                      src={
+                        data.profilePicture
+                          ? `http://localhost:3000/${data.profilePicture}`
+                          : ""
+                      }
+                      className="object-cover w-full h-full"
+                      alt="profile"
+                    />
                   </div>
                   <h2
                     className="transition-all duration-300 ease-in-out text-sm font-bold ml-2 truncate ..."
