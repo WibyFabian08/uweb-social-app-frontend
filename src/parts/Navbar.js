@@ -6,6 +6,7 @@ import NavBrand from "../elements/NavBrand";
 import HomeIcon from "@material-ui/icons/Home";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import SendIcon from "@material-ui/icons/Send";
+import Switch from "@material-ui/core/Switch";
 
 import profile from "../assets/images/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
@@ -117,18 +118,17 @@ const Navbar = ({ match }) => {
               </div>
             </Link>
             <h2
-              className="font-bold transition-all duration-300 ease-in-out ml-2 truncate ..."
+              className="font-bold transition-all duration-300 ease-in-out ml-2 mr-12 truncate ..."
               style={{ color: THEME ? "black" : "white" }}
             >
               {USER && USER.username}
             </h2>
-            <button
-              className="px-2 py-1 ml-10 text-xs font-bold text-white transition-all duration-300 ease-in-out rounded-lg focus:outline-none"
-              style={{backgroundColor: '#4267b2'}}
-              onClick={() => dispatch({ type: "SET_THEME", value: !THEME })}
-            >
-              {THEME ? "Dark Theme" : "Light Theme"}
-            </button>
+            <Switch
+              onChange={() => dispatch({ type: "SET_THEME", value: !THEME })}
+              color="primary"
+              name="checkedB"
+              inputProps={{ "aria-label": "primary checkbox" }}
+            />
           </div>
         </div>
       </div>

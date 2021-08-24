@@ -57,10 +57,6 @@ const DetailHeader = ({ match }) => {
     return path === match.path ? "border-b-4 border-solid border-blue-400" : "";
   };
 
-  const getNavTitle = (path) => {
-    return path === match.path ? "text-blue-500" : "text-white";
-  };
-
   const getHeaderProfile = () => {
     dispatch(getUserByName(match.params.username, setUser));
   };
